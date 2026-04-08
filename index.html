@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Examen para el pro Edgarillo</title>
+
+    <style>
+        body {
+            background-color: black;
+            font-family: Arial;
+            margin: 20px;
+        }
+        
+        h1 {
+            color: rgb(216, 26, 26);
+            text-align: center;
+        }
+        
+        h2 {
+            color: rgb(3, 153, 15);
+        }
+        
+        label {
+            color: white;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 60px;
+            margin-top: 5px;
+        }
+        
+        button {
+            color: rgb(163, 5, 5);
+            background-color: white;
+            padding: 10px;
+            font-size: 16px;
+            font-family: Arial;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <h1>Examen PRO para el Proasooo</h1>
+
+    <form>
+
+        <!-- ================= MATEMÁTICAS ================= -->
+        <h2>Matemáticas</h2>
+
+        <label>1. Resuelve la ecuación: 3x + 5 = 20.</label>
+        <textarea></textarea>
+
+        <label>2. ¿Qué es un número primo? Escribe dos ejemplos.</label>
+        <textarea></textarea>
+
+        <label>3. Resuelve la operación: 12 × 8 ÷ 4.</label>
+        <textarea></textarea>
+
+        <label>4. ¿Qué es una fracción? Da un ejemplo.</label>
+        <textarea></textarea>
+
+        <!-- ================= CIENCIAS ================= -->
+        <h2>Ciencias</h2>
+
+        <label>5. ¿Qué es la fotosíntesis y por qué es importante?</label>
+        <textarea></textarea>
+
+        <label>6. Menciona los estados de la materia y describe uno.</label>
+        <textarea></textarea>
+
+        <label>7. ¿Cuál es la función del sistema respiratorio?</label>
+        <textarea></textarea>
+
+        <label>8. ¿Qué es un ecosistema? Da un ejemplo.</label>
+        <textarea></textarea>
+
+        <!-- ================= FÍSICA ================= -->
+        <h2>Física</h2>
+
+        <label>9. ¿Qué es la fuerza? Da un ejemplo.</label>
+        <textarea></textarea>
+
+        <label>10. ¿Qué es la gravedad y cómo nos afecta?</label>
+        <textarea></textarea>
+
+        <label>11. ¿Qué es el movimiento? Da un ejemplo.</label>
+        <textarea></textarea>
+
+        <label>12. ¿Qué es la energía? Menciona un tipo.</label>
+        <textarea></textarea>
+
+        <!-- ================= TECNOLOGÍA ================= -->
+        <h2>Tecnología</h2>
+
+        <label>13. ¿Qué es una computadora y para qué sirve?</label>
+        <textarea></textarea>
+
+        <label>14. ¿Cuál es la función del teclado?</label>
+        <textarea></textarea>
+
+        <label>15. ¿Qué es internet y para qué se utiliza?</label>
+        <textarea></textarea>
+
+        <label>16. Menciona una tecnología de tu vida diaria y explica su uso.</label>
+        <textarea></textarea>
+
+        <!-- ================= ESPAÑOL ================= -->
+        <h2>Español</h2>
+
+        <label>17. ¿Qué es un sustantivo? Da dos ejemplos.</label>
+        <textarea></textarea>
+
+        <label>18. Escribe una oración con sujeto y verbo.</label>
+        <textarea></textarea>
+
+        <label>19. ¿Qué es un adjetivo? Da un ejemplo.</label>
+        <textarea></textarea>
+
+        <label>20. ¿Qué es una narración?</label>
+        <textarea></textarea>
+
+        <!-- ================= CULTURA GENERAL ================= -->
+        <h2>Cultura General</h2>
+
+        <label>21. ¿Cuál es la capital de México?</label>
+        <textarea></textarea>
+
+        <label>22. ¿Quién fue Benito Juárez y por qué es importante?</label>
+        <textarea></textarea>
+
+        <label>23. Menciona un país y su idioma principal.</label>
+        <textarea></textarea>
+
+        <label>24. ¿Qué se celebra el 16 de septiembre en México?</label>
+        <textarea></textarea>
+
+        <button type="button" onclick="guardarTXT()">Guardar respuestas</button>
+
+    </form>
+
+    <script>
+        function guardarTXT() {
+
+            let respuestas = document.querySelectorAll("textarea");
+            let texto = "Respuestas del examen:\n\n";
+
+            // 🔴 VALIDACIÓN
+            for (let i = 0; i < respuestas.length; i++) {
+                if (respuestas[i].value.trim() === "") {
+                    alert("❌ Debes responder TODAS las preguntas antes de guardar.");
+                    respuestas[i].focus();
+                    return; // 💥 detiene todo
+                }
+            }
+
+            // 🟢 SI TODO ESTÁ LLENO, CONTINÚA
+            respuestas.forEach((r, i) => {
+                texto += "Pregunta " + (i + 1) + ":\n" + r.value + "\n\n";
+            });
+
+            let blob = new Blob([texto], {
+                type: "text/plain"
+            });
+            let enlace = document.createElement("a");
+
+            enlace.href = URL.createObjectURL(blob);
+            enlace.download = "respuestas.txt";
+            enlace.click();
+        }
+    </script>
+
+</body>
+
+</html>
