@@ -10,6 +10,7 @@
             background-color: black;
             font-family: Arial;
             margin: 20px;
+            overflow-x: hidden
         }
         
         h1 {
@@ -28,7 +29,7 @@
         }
         
         textarea {
-            width: 100%;
+            width: 30%;
             height: 60px;
             margin-top: 5px;
         }
@@ -42,11 +43,60 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        /* Fondo y animación */
+        
+        .cubo {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: flotar 10s linear infinite;
+        }
+        
+        .cubo {
+            position: fixed;
+            bottom: -60px;
+            /* 👈 clave */
+            width: 40px;
+            height: 40px;
+            /* estilo tipo Rubik */
+            border-top: 2px solid red;
+            border-right: 2px solid blue;
+            border-bottom: 2px solid green;
+            border-left: 2px solid yellow;
+            animation: flotar 12s linear infinite;
+            opacity: 0.6;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes flotar {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
-<body>
 
+
+
+<body>
+    ;
+
+    <div class="cubo" style="left: 10%; animation-duration: 12s;"></div>
+    <div class="cubo small" style="left: 25%; animation-duration: 8s;"></div>
+    <div class="cubo big" style="left: 40%; animation-duration: 15s;"></div>
+    <div class="cubo" style="left: 60%; animation-duration: 10s;"></div>
+    <div class="cubo small" style="left: 75%; animation-duration: 9s;"></div>
+    <div class="cubo big" style="left: 90%; animation-duration: 14s;"></div>
 
 
     <h1>Examen PRO para el Proasooo</h1>
