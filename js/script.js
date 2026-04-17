@@ -1,23 +1,31 @@
+let categoriaActual = "todos";
+
 // BUSCADOR
 function buscar() {
     let input = document.getElementById("busqueda").value.toLowerCase();
+    filtrar(categoriaActual, input);
+}
+
+// FILTRO
+function filtrar(categoria, textoBusqueda = "") {
+    categoriaActual = categoria;
+
     let cards = document.querySelectorAll(".card");
 
     cards.forEach(card => {
         let texto = card.innerText.toLowerCase();
-        card.style.display = texto.includes(input) ? "block" : "none";
-    });
-}
 
-// FILTRO
-function filtrar(categoria) {
-    let cards = document.querySelectorAll(".card");
+        let coincideCategoria =
+            categoria === "todos" ?
+            !card.classList.contains("oculto") :
+            card.classList.contains(categoria);
 
-    cards.forEach(card => {
-        if (categoria === "todos") {
+        let coincideBusqueda = texto.includes(textoBusqueda);
+
+        if (coincideCategoria && coincideBusqueda) {
             card.style.display = "block";
         } else {
-            card.style.display = card.classList.contains(categoria) ? "block" : "none";
+            card.style.display = "none";
         }
     });
 }
