@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutería la Pasadita</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1 class="name">🛒 Frutería La Pasadita</h1>
+        <input type="text" id="busqueda" placeholder="¿Qué buscas?" onkeyup="buscar()">
+    </header>
+
+    <!-- MENU -->
+    <div class="menu">
+
+        <div onclick="filtrar('todos')">Destacados</div>
+        <div onclick="filtrar('carniceria')">Carniceria</div>
+        <div onclick="filtrar('fyv')">Frutas y Verduras</div>
+        <div onclick="filtrar('lacteos')">Lácteos</div>
+
+        <div onclick="filtrar('bebidas')">Bebidas</div>
+        <div onclick="filtrar('snacks')">Snacks</div>
+        <div onclick="filtrar('promos')">Promociones</div>
+    </div>
+
+    <!-- CARRUSEL -->
+    <div class="carousel">
+        <img id="slider" src="img/banner1.jpg" alt="Promociones">
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="container">
+
+        <!-- DESTACADOS -->
+        <div class="card bebidas inicio">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/bebidas/coca.jpg">
+            <div class="card-content">
+                <h3>Coca-Cola 600ml</h3>
+                <p class="price">$25</p>
+            </div>
+        </div>
+
+        <div class="card snacks promos inicio">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/snacks/PakeTaxo.jpg">
+            <div class="card-content">
+                <h3>Pake Taxo 250gr</h3>
+                <p class="price">$25</p>
+                <span class="tag">Promo</span>
+            </div>
+        </div>
+
+        <div class="card lacteos inicio">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/lacteos/nutrileche.jpg">
+            <div class="card-content">
+                <h3>NutriLeche 1L</h3>
+                <p class="price">$28</p>
+            </div>
+        </div>
+
+
+        <!-- carniceria -->
+        <div class="card carniceria oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/carniceria/pechugadepollo.jpg">
+            <div class="card-content">
+                <h3>Pechuga De Pollo</h3>
+                <p class="price">$45.50 KG</p>
+            </div>
+        </div>
+        <div class="card carniceria oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/carniceria/bistecdiesmillo.jpg">
+            <div class="card-content">
+                <h3>Bistec Diesmillo</h3>
+                <p class="price">$179.50 KG</p>
+            </div>
+        </div>
+
+
+
+
+        <!-- CATEGORÍAS -->
+        <div class="card lacteos oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/lacteos/yomi.jpg">
+            <div class="card-content">
+                <h3>Yogurt Yomi</h3>
+                <p class="price">$12.50</p>
+            </div>
+        </div>
+
+        <div class="card bebidas promos">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/bebidas/monster.jpg">
+            <div class="card-content">
+                <h3>Monster</h3>
+                <span class="tag">Promo</span>
+                <p class="price">$45</p>
+            </div>
+        </div>
+
+        <div class="card bebidas oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/bebidas/jumex.jpg">
+            <div class="card-content">
+                <h3>JuMEX</h3>
+                <p class="price">$22</p>
+            </div>
+        </div>
+
+        <div class="card snacks oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/snacks/doritos250.jpg">
+            <div class="card-content">
+                <h3>Doritos 250gr</h3>
+                <p class="price">$25</p>
+            </div>
+        </div>
+
+        <div class="card snacks oculto">
+            <button onclick="agregarCarrito(this)">Agregar</button>
+            <img src="img/snacks/cheetosflaming145.jpg">
+            <div class="card-content">
+                <h3>Cheetos Flaming 145gr</h3>
+                <p class="price">$22</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CARRITO PRO -->
+    <div class="carrito">
+        <h3>🛒 Pedido (<span id="contador">0</span>)</h3>
+
+        <input type="text" id="nombreCliente" placeholder="Tu nombre">
+
+        <select id="horario">
+            <option value="">Horario de recolección</option>
+            <option>En 30 minutos</option>
+            <option>En 1 hora</option>
+            <option>Hoy por la tarde</option>
+        </select>
+
+        <ul id="lista-carrito"></ul>
+
+        <p id="total">Total: $0</p>
+
+        <p style="font-size: 16px; color: rgb(179, 4, 4);">
+            Verifica tu pedido antes de enviarlo
+        </p>
+
+        <button onclick="enviarPedido()">Pedir por WhatsApp</button>
+        <button onclick="vaciarCarrito()">Vaciar carrito</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <h3>Contáctanos</h3>
+
+        <p>📞 Teléfono: <a href="tel:6641234567">664 123 4567</a></p>
+
+        <div class="redes">
+            <a href="https://wa.me/526641234567" target="_blank">WhatsApp</a>
+            <a href="#" target="_blank">Facebook</a>
+            <a href="#" target="_blank">Instagram</a>
+        </div>
+
+        <p class="copy">© 2026 Frutería La Pasadita</p>
+    </footer>
+
+    <!-- TOAST -->
+    <div id="toast">Producto agregado</div>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
