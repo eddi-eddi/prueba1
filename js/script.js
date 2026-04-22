@@ -30,7 +30,8 @@ function filtrar(categoria, textoBusqueda = "") {
             mostrar = card.classList.contains(categoria);
         }
 
-        card.style.display = (mostrar && texto.includes(textoBusqueda)) ? "block" : "none";
+        // 🔥 FIX FLEX (NO usar "block")
+        card.style.display = (mostrar && texto.includes(textoBusqueda)) ? "" : "none";
     });
 }
 
@@ -62,6 +63,8 @@ setInterval(() => {
 function toggleCarrito() {
     let carritoDiv = document.querySelector(".carrito");
     let overlay = document.querySelector(".overlay");
+
+    if (!carritoDiv || !overlay) return;
 
     carritoDiv.classList.toggle("activo");
     overlay.classList.toggle("activo");
@@ -101,15 +104,25 @@ function agregarCarrito(boton) {
     animarBotonCarrito();
     mostrarToast();
     actualizarCarrito();
-    abrirCarrito();
+
+    // 🔥 abrir solo si está cerrado
+    let carritoDiv = document.querySelector(".carrito");
+    if (carritoDiv && !carritoDiv.classList.contains("activo")) {
+        abrirCarrito();
+    }
 }
 
 // =======================
 // 🛒 ABRIR DIRECTO
 // =======================
 function abrirCarrito() {
-    document.querySelector(".carrito").classList.add("activo");
-    document.querySelector(".overlay").classList.add("activo");
+    let carritoDiv = document.querySelector(".carrito");
+    let overlay = document.querySelector(".overlay");
+
+    if (!carritoDiv || !overlay) return;
+
+    carritoDiv.classList.add("activo");
+    overlay.classList.add("activo");
     document.body.style.overflow = "hidden";
 }
 
@@ -119,6 +132,8 @@ function abrirCarrito() {
 function actualizarCarrito() {
 
     let lista = document.getElementById("lista-carrito");
+    if (!lista) return;
+
     lista.innerHTML = "";
 
     let total = 0;
@@ -144,14 +159,16 @@ function actualizarCarrito() {
         lista.appendChild(li);
     });
 
-    document.getElementById("total").textContent = "Total: $" + total.toFixed(2);
+    let totalEl = document.getElementById("total");
+    if (totalEl) {
+        totalEl.textContent = "Total: $" + total.toFixed(2);
+    }
 
-    // 🔥 ACTUALIZA AMBOS CONTADORES
-    let c1 = document.getElementById("contador");
-    let c2 = document.getElementById("contadorCarrito");
-
-    if (c1) c1.textContent = totalProductos;
-    if (c2) c2.textContent = totalProductos;
+    // 🔥 actualizar contadores (sin duplicar código)
+    ["contador", "contadorCarrito"].forEach(id => {
+        let el = document.getElementById(id);
+        if (el) el.textContent = totalProductos;
+    });
 }
 
 // =======================
@@ -180,8 +197,8 @@ function vaciarCarrito() {
 // =======================
 function enviarPedido() {
 
-    let nombreCliente = document.getElementById("nombreCliente").value.trim();
-    let horario = document.getElementById("horario").value;
+    let nombreCliente = document.getElementById("nombreCliente")?.value.trim();
+    let horario = document.getElementById("horario")?.value;
 
     if (carrito.length === 0) {
         alert("Agrega productos primero");
