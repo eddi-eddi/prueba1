@@ -30,11 +30,7 @@ function filtrar(categoria, textoBusqueda = "") {
             mostrar = card.classList.contains(categoria);
         }
 
-        if (mostrar && texto.includes(textoBusqueda)) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
-        }
+        card.style.display = (mostrar && texto.includes(textoBusqueda)) ? "block" : "none";
     });
 }
 
@@ -60,14 +56,24 @@ setInterval(() => {
 }, 3000);
 
 // =======================
-// 🛒 ABRIR / CERRAR
+// 🛒 ABRIR / CERRAR PRO
 // =======================
 function toggleCarrito() {
-    document.querySelector(".carrito").classList.toggle("activo");
-    document.querySelector(".overlay").classList.toggle("activo");
+    let carritoDiv = document.querySelector(".carrito");
+    let overlay = document.querySelector(".overlay");
+
+    carritoDiv.classList.toggle("activo");
+    overlay.classList.toggle("activo");
+
+    // 🔥 bloquear scroll del fondo
+    document.body.style.overflow = carritoDiv.classList.contains("activo") ? "hidden" : "auto";
 }
+
+// 🔥 cerrar al tocar fondo oscuro
+document.querySelector(".overlay").addEventListener("click", toggleCarrito);
+
 // =======================
-// 🛒 AGREGAR
+// 🛒 AGREGAR PRO
 // =======================
 function agregarCarrito(boton) {
 
@@ -85,15 +91,25 @@ function agregarCarrito(boton) {
         carrito.push({ nombre, precio, cantidad: 1 });
     }
 
+    animarBotonCarrito();
     mostrarToast();
     actualizarCarrito();
 
     // 🔥 abre carrito automático
-    document.querySelector(".carrito").classList.add("activo");
+    abrirCarrito();
 }
 
 // =======================
-// 🔄 ACTUALIZAR
+// 🛒 ABRIR DIRECTO
+// =======================
+function abrirCarrito() {
+    document.querySelector(".carrito").classList.add("activo");
+    document.querySelector(".overlay").classList.add("activo");
+    document.body.style.overflow = "hidden";
+}
+
+// =======================
+// 🔄 ACTUALIZAR PRO
 // =======================
 function actualizarCarrito() {
 
@@ -122,8 +138,6 @@ function actualizarCarrito() {
     });
 
     document.getElementById("total").textContent = "Total: $" + total;
-
-    // 🔥 contador REAL (cantidad total)
     document.getElementById("contador").textContent = totalProductos;
 }
 
@@ -199,4 +213,16 @@ function mostrarToast() {
     setTimeout(() => {
         t.style.opacity = 0;
     }, 1200);
+}
+
+// =======================
+// 🎯 ANIMACIÓN BOTÓN
+// =======================
+function animarBotonCarrito() {
+    let btn = document.querySelector(".btn-carrito");
+
+    btn.style.transform = "scale(1.2)";
+    setTimeout(() => {
+        btn.style.transform = "scale(1)";
+    }, 200);
 }
