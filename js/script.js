@@ -52,11 +52,12 @@ let i = 0;
 
 setInterval(() => {
     i = (i + 1) % imagenes.length;
-    document.getElementById("slider").src = imagenes[i];
+    let slider = document.getElementById("slider");
+    if (slider) slider.src = imagenes[i];
 }, 3000);
 
 // =======================
-// 🛒 ABRIR / CERRAR PRO
+// 🛒 ABRIR / CERRAR
 // =======================
 function toggleCarrito() {
     let carritoDiv = document.querySelector(".carrito");
@@ -65,15 +66,20 @@ function toggleCarrito() {
     carritoDiv.classList.toggle("activo");
     overlay.classList.toggle("activo");
 
-    // 🔥 bloquear scroll del fondo
-    document.body.style.overflow = carritoDiv.classList.contains("activo") ? "hidden" : "auto";
+    document.body.style.overflow =
+        carritoDiv.classList.contains("activo") ? "hidden" : "auto";
 }
 
-// 🔥 cerrar al tocar fondo oscuro
-document.querySelector(".overlay").addEventListener("click", toggleCarrito);
+// cerrar tocando fondo
+document.addEventListener("DOMContentLoaded", () => {
+    let overlay = document.querySelector(".overlay");
+    if (overlay) {
+        overlay.addEventListener("click", toggleCarrito);
+    }
+});
 
 // =======================
-// 🛒 AGREGAR PRO
+// 🛒 AGREGAR
 // =======================
 function agregarCarrito(boton) {
 
@@ -81,7 +87,8 @@ function agregarCarrito(boton) {
 
     let nombre = card.querySelector("h3").innerText;
     let precioTexto = card.querySelector(".price").innerText;
-    let precio = parseFloat(precioTexto.replace("$", ""));
+
+    let precio = parseFloat(precioTexto.replace(/[^\d.]/g, ""));
 
     let producto = carrito.find(p => p.nombre === nombre);
 
@@ -94,8 +101,6 @@ function agregarCarrito(boton) {
     animarBotonCarrito();
     mostrarToast();
     actualizarCarrito();
-
-    // 🔥 abre carrito automático
     abrirCarrito();
 }
 
@@ -109,7 +114,7 @@ function abrirCarrito() {
 }
 
 // =======================
-// 🔄 ACTUALIZAR PRO
+// 🔄 ACTUALIZAR
 // =======================
 function actualizarCarrito() {
 
@@ -121,14 +126,16 @@ function actualizarCarrito() {
 
     carrito.forEach((item, index) => {
 
-        total += item.precio * item.cantidad;
+        let subtotal = item.precio * item.cantidad;
+
+        total += subtotal;
         totalProductos += item.cantidad;
 
         let li = document.createElement("li");
 
         li.innerHTML = `
             <strong>${item.nombre}</strong><br>
-            x${item.cantidad} = $${item.precio * item.cantidad}
+            x${item.cantidad} = $${subtotal.toFixed(2)}
             <br>
             <button onclick="cambiarCantidad(${index}, 1)">+</button>
             <button onclick="cambiarCantidad(${index}, -1)">-</button>
@@ -137,8 +144,14 @@ function actualizarCarrito() {
         lista.appendChild(li);
     });
 
-    document.getElementById("total").textContent = "Total: $" + total;
-    document.getElementById("contador").textContent = totalProductos;
+    document.getElementById("total").textContent = "Total: $" + total.toFixed(2);
+
+    // 🔥 ACTUALIZA AMBOS CONTADORES
+    let c1 = document.getElementById("contador");
+    let c2 = document.getElementById("contadorCarrito");
+
+    if (c1) c1.textContent = totalProductos;
+    if (c2) c2.textContent = totalProductos;
 }
 
 // =======================
@@ -167,7 +180,7 @@ function vaciarCarrito() {
 // =======================
 function enviarPedido() {
 
-    let nombreCliente = document.getElementById("nombreCliente").value;
+    let nombreCliente = document.getElementById("nombreCliente").value.trim();
     let horario = document.getElementById("horario").value;
 
     if (carrito.length === 0) {
@@ -192,11 +205,12 @@ function enviarPedido() {
     let total = 0;
 
     carrito.forEach(item => {
-        mensaje += `- ${item.nombre} x${item.cantidad} = $${item.precio * item.cantidad}\n`;
-        total += item.precio * item.cantidad;
+        let subtotal = item.precio * item.cantidad;
+        mensaje += `- ${item.nombre} x${item.cantidad} = $${subtotal.toFixed(2)}\n`;
+        total += subtotal;
     });
 
-    mensaje += `\n💰 Total: $${total}`;
+    mensaje += `\n💰 Total: $${total.toFixed(2)}`;
     mensaje += `\n\nVerifica pedido y confirma 🙌`;
 
     let url = `https://wa.me/526463849069?text=${encodeURIComponent(mensaje)}`;
@@ -208,6 +222,8 @@ function enviarPedido() {
 // =======================
 function mostrarToast() {
     let t = document.getElementById("toast");
+    if (!t) return;
+
     t.style.opacity = 1;
 
     setTimeout(() => {
@@ -220,8 +236,10 @@ function mostrarToast() {
 // =======================
 function animarBotonCarrito() {
     let btn = document.querySelector(".btn-carrito");
+    if (!btn) return;
 
     btn.style.transform = "scale(1.2)";
+
     setTimeout(() => {
         btn.style.transform = "scale(1)";
     }, 200);
