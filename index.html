@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frutería la Pasadita</title>
+    <title>Frutería La Pasadita</title>
 
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -19,12 +19,10 @@
 
     <!-- MENU -->
     <div class="menu">
-
         <div onclick="filtrar('todos')">Destacados</div>
-        <div onclick="filtrar('carniceria')">Carniceria</div>
+        <div onclick="filtrar('carniceria')">Carnicería</div>
         <div onclick="filtrar('fyv')">Frutas y Verduras</div>
         <div onclick="filtrar('lacteos')">Lácteos</div>
-
         <div onclick="filtrar('bebidas')">Bebidas</div>
         <div onclick="filtrar('snacks')">Snacks</div>
         <div onclick="filtrar('promos')">Promociones</div>
@@ -67,16 +65,16 @@
             </div>
         </div>
 
-
-        <!-- carniceria -->
+        <!-- CARNICERÍA -->
         <div class="card carniceria oculto">
             <button onclick="agregarCarrito(this)">Agregar</button>
             <img src="img/carniceria/pechugadepollo.jpg">
             <div class="card-content">
-                <h3>Pechuga De Pollo</h3>
+                <h3>Pechuga de Pollo</h3>
                 <p class="price">$45.50 KG</p>
             </div>
         </div>
+
         <div class="card carniceria oculto">
             <button onclick="agregarCarrito(this)">Agregar</button>
             <img src="img/carniceria/bistecdiesmillo.jpg">
@@ -86,10 +84,7 @@
             </div>
         </div>
 
-
-
-
-        <!-- CATEGORÍAS -->
+        <!-- LÁCTEOS -->
         <div class="card lacteos oculto">
             <button onclick="agregarCarrito(this)">Agregar</button>
             <img src="img/lacteos/yomi.jpg">
@@ -99,6 +94,7 @@
             </div>
         </div>
 
+        <!-- BEBIDAS -->
         <div class="card bebidas promos">
             <button onclick="agregarCarrito(this)">Agregar</button>
             <img src="img/bebidas/monster.jpg">
@@ -118,6 +114,7 @@
             </div>
         </div>
 
+        <!-- SNACKS -->
         <div class="card snacks oculto">
             <button onclick="agregarCarrito(this)">Agregar</button>
             <img src="img/snacks/doritos250.jpg">
@@ -138,9 +135,12 @@
 
     </div>
 
-    <!-- CARRITO PRO -->
+    <!-- OVERLAY (fondo oscuro) -->
+    <div class="overlay" onclick="toggleCarrito()"></div>
+
+    <!-- CARRITO -->
     <div class="carrito">
-        <h3>🛒 Pedido (<span id="contador">0</span>)</h3>
+        <h3>🛒 Pedido (<span id="contadorCarrito">0</span>)</h3>
 
         <input type="text" id="nombreCliente" placeholder="Tu nombre">
 
@@ -155,12 +155,17 @@
 
         <p id="total">Total: $0</p>
 
-        <p style="font-size: 16px; color: rgb(179, 4, 4);">
+        <p style="font-size: 14px; color: #dc2626;">
             Verifica tu pedido antes de enviarlo
         </p>
 
         <button onclick="enviarPedido()">Pedir por WhatsApp</button>
         <button onclick="vaciarCarrito()">Vaciar carrito</button>
+    </div>
+
+    <!-- BOTÓN FLOTANTE -->
+    <div class="btn-carrito" onclick="toggleCarrito()">
+        🛒 <span id="contador">0</span>
     </div>
 
     <!-- FOOTER -->
@@ -182,10 +187,6 @@
     <div id="toast">Producto agregado</div>
 
     <script src="js/script.js"></script>
-
-    <div class="btn-carrito" onclick="toggleCarrito()">
-        🛒 <span id="contador">0</span>
-    </div>
 
 </body>
 
