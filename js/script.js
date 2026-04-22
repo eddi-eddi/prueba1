@@ -60,7 +60,14 @@ setInterval(() => {
 }, 3000);
 
 // =======================
-// 🛒 CARRITO CON CANTIDAD
+// 🛒 ABRIR / CERRAR
+// =======================
+function toggleCarrito() {
+    document.querySelector(".carrito").classList.toggle("activo");
+    document.querySelector(".overlay").classList.toggle("activo");
+}
+// =======================
+// 🛒 AGREGAR
 // =======================
 function agregarCarrito(boton) {
 
@@ -80,6 +87,9 @@ function agregarCarrito(boton) {
 
     mostrarToast();
     actualizarCarrito();
+
+    // 🔥 abre carrito automático
+    document.querySelector(".carrito").classList.add("activo");
 }
 
 // =======================
@@ -91,15 +101,18 @@ function actualizarCarrito() {
     lista.innerHTML = "";
 
     let total = 0;
+    let totalProductos = 0;
 
     carrito.forEach((item, index) => {
 
         total += item.precio * item.cantidad;
+        totalProductos += item.cantidad;
 
         let li = document.createElement("li");
 
         li.innerHTML = `
-            ${item.nombre} x${item.cantidad} - $${item.precio * item.cantidad}
+            <strong>${item.nombre}</strong><br>
+            x${item.cantidad} = $${item.precio * item.cantidad}
             <br>
             <button onclick="cambiarCantidad(${index}, 1)">+</button>
             <button onclick="cambiarCantidad(${index}, -1)">-</button>
@@ -110,8 +123,8 @@ function actualizarCarrito() {
 
     document.getElementById("total").textContent = "Total: $" + total;
 
-    // 🔥 contador correcto
-    document.getElementById("contador").textContent = carrito.length;
+    // 🔥 contador REAL (cantidad total)
+    document.getElementById("contador").textContent = totalProductos;
 }
 
 // =======================
