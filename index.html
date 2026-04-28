@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frutería La Pasadita</title>
-
+    <title>Frutería La Pasadita - Tijuana</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -13,181 +12,151 @@
 
     <!-- HEADER -->
     <header>
-        <h1 class="name">🛒 Frutería La Pasadita</h1>
-        <input type="text" id="busqueda" placeholder="¿Qué buscas?" onkeyup="buscar()">
+        <div class="header-content">
+            <h1 class="logo">🛒 Frutería La Pasadita</h1>
+            <input type="text" id="busqueda" placeholder="¿Qué buscas?" onkeyup="buscar()">
+            <button class="cart-header-btn" onclick="toggleCarrito()">
+                🛒 Carrito (<span id="contador-header">0</span>)
+            </button>
+        </div>
     </header>
 
-    <!-- MENU -->
+    <!-- MENÚ DE CATEGORÍAS -->
     <nav class="menu">
-        <div onclick="filtrar('todos')">Destacados</div>
-        <div onclick="filtrar('carniceria')">Carnicería</div>
-        <div onclick="filtrar('fyv')">Frutas y Verduras</div>
-        <div onclick="filtrar('lacteos')">Lácteos</div>
-        <div onclick="filtrar('bebidas')">Bebidas</div>
-        <div onclick="filtrar('snacks')">Snacks</div>
-        <div onclick="filtrar('promos')">Promociones</div>
+        <div class="menu-item active" data-categoria="todos">Destacados</div>
+        <div class="menu-item" data-categoria="carniceria">Carnicería</div>
+        <div class="menu-item" data-categoria="Frutas/Verduras">Frutas y Verduras</div>
+        <div class="menu-item" data-categoria="lacteos">Lácteos</div>
+        <div class="menu-item" data-categoria="bebidas">Bebidas</div>
+        <div class="menu-item" data-categoria="snacks">Snacks</div>
+        <div class="menu-item" data-categoria="promos">Promociones</div>
     </nav>
 
     <!-- CARRUSEL -->
-    <div class="carousel">
-        <img id="slider" src="img/banner1.jpg" alt="Promociones">
-    </div>
+    <section class="carousel-section">
+        <div class="carousel">
+            <img id="slider" src="img/banner1.jpg" alt="Promociones de la semana">
+        </div>
+    </section>
 
-    <!-- PRODUCTOS -->
-    <main class="container">
+    <!-- SECCIÓN DE PRODUCTOS -->
+    <section class="products-section">
+        <div class="container">
+            <h2 class="section-title" id="section-title">Destacados</h2>
 
-        <!-- DESTACADOS -->
-        <div class="card bebidas inicio">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/bebidas/coca.jpg" alt="Coca Cola">
-            <div class="card-content">
-                <h3>Coca-Cola 600ml</h3>
-                <p class="price">$25</p>
+            <div class="products-grid" id="products-grid">
+
+                <!-- Carnicería -->
+                <div class="card carniceria">
+                    <button onclick="agregarCarrito(this)">Agregar</button>
+                    <img src="img/carniceria/bistecdiesmillo.jpg" alt="Bistec de Diezmillo">
+                    <div class="card-content">
+                        <h3>Bistec de Diezmillo</h3>
+                        <p class="price">$179.50 kg</p>
+                    </div>
+                </div>
+
+                <!-- Frutas y Verduras -->
+                <div class="card Frutas/Verduras">
+                    <button onclick="agregarCarrito(this)">Agregar</button>
+                    <img src="img/frutasyverduras/lechugabola.jpg" alt="Lechuga Bola">
+                    <div class="card-content">
+                        <h3>Lechuga Bola</h3>
+                        <p class="price">$25</p>
+                        <span class="tag">Promo</span>
+                    </div>
+                </div>
+
+                <!-- Lácteos -->
+                <div class="card lacteos inicio">
+                    <button onclick="agregarCarrito(this)">Agregar</button>
+                    <img src="img/lacteos/nutrileche.jpg" alt="Nutrileche">
+                    <div class="card-content">
+                        <h3>NutriLeche 1L</h3>
+                        <p class="price">$28</p>
+                    </div>
+                </div>
+
+                <!-- Bebidas -->
+                <div class="card bebidas promos inicio">
+                    <button onclick="agregarCarrito(this)">Agregar</button>
+                    <img src="img/bebidas/cocacola600.jpg" alt="Coca-Cola">
+                    <div class="card-content">
+                        <h3>Coca-Cola 600ml</h3>
+                        <p class="price">$28</p>
+                        <span class="tag">Promo</span>
+                    </div>
+                </div>
+
+                <!-- Snacks -->
+                <div class="card snacks promos inicio">
+                    <button onclick="agregarCarrito(this)">Agregar</button>
+                    <img src="img/snacks/PakeTaxo.jpg" alt="Pake Taxo">
+                    <div class="card-content">
+                        <h3>Pake Taxo 250gr</h3>
+                        <p class="price">$25</p>
+                        <span class="tag">Promo</span>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <div class="card snacks promos inicio">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/snacks/paketaxo.jpg" alt="Paketaxo">
-            <div class="card-content">
-                <h3>Pake Taxo 250gr</h3>
-                <p class="price">$25</p>
-                <span class="tag">Promo</span>
-            </div>
-        </div>
-
-        <div class="card lacteos inicio">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/lacteos/nutrileche.jpg" alt="NutriLeche">
-            <div class="card-content">
-                <h3>NutriLeche 1L</h3>
-                <p class="price">$28</p>
-            </div>
-        </div>
-
-        <!-- CARNICERÍA -->
-        <div class="card carniceria oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/carniceria/pechugadepollo.jpg" alt="Pechuga de pollo">
-            <div class="card-content">
-                <h3>Pechuga de Pollo</h3>
-                <p class="price">$45.50 KG</p>
-            </div>
-        </div>
-
-        <div class="card carniceria oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/carniceria/bistecdiesmillo.jpg" alt="Bistec">
-            <div class="card-content">
-                <h3>Bistec Diesmillo</h3>
-                <p class="price">$179.50 KG</p>
-            </div>
-        </div>
-
-        <!-- LÁCTEOS -->
-        <div class="card lacteos oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/lacteos/yomi.jpg" alt="Yogurt">
-            <div class="card-content">
-                <h3>Yogurt Yomi</h3>
-                <p class="price">$12.50</p>
-            </div>
-        </div>
-
-        <!-- BEBIDAS -->
-        <div class="card bebidas promos">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/bebidas/monster.jpg" alt="Monster">
-            <div class="card-content">
-                <h3>Monster</h3>
-                <span class="tag">Promo</span>
-                <p class="price">$45</p>
-            </div>
-        </div>
-
-        <div class="card bebidas oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/bebidas/jumex.jpg" alt="Jumex">
-            <div class="card-content">
-                <h3>JuMEX</h3>
-                <p class="price">$22</p>
-            </div>
-        </div>
-
-        <!-- SNACKS -->
-        <div class="card snacks oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/snacks/doritos250.jpg" alt="Doritos">
-            <div class="card-content">
-                <h3>Doritos 250gr</h3>
-                <p class="price">$25</p>
-            </div>
-        </div>
-
-        <div class="card snacks oculto">
-            <button onclick="agregarCarrito(this)">Agregar</button>
-            <img src="img/snacks/cheetosflaming145.jpg" alt="Cheetos">
-            <div class="card-content">
-                <h3>Cheetos Flaming 145gr</h3>
-                <p class="price">$22</p>
-            </div>
-        </div>
-
-    </main>
+    </section>
 
     <!-- OVERLAY -->
-    <div class="overlay"></div>
+    <div class="overlay" id="overlay" onclick="toggleCarrito()"></div>
 
     <!-- CARRITO -->
-    <aside class="carrito">
-        <h3>🛒 Pedido (<span id="contadorCarrito">0</span>)</h3>
+    <div class="carrito" id="carrito">
+        <div class="carrito-header">
+            <h3>🛒 Tu Pedido (<span id="contador">0</span>)</h3>
+            <button class="close-btn" onclick="toggleCarrito()">✕</button>
+        </div>
 
-        <input type="text" id="nombreCliente" placeholder="Tu nombre">
+        <input type="text" id="nombreCliente" placeholder="Nombre completo">
 
         <select id="horario">
             <option value="">Horario de recolección</option>
-            <option>En 30 minutos</option>
-            <option>En 1 hora</option>
-            <option>Hoy por la tarde</option>
+            <option value="30 min">En 30 minutos</option>
+            <option value="1 hora">En 1 hora</option>
+            <option value="tarde">Hoy por la tarde</option>
+            <option value="18-20">18:00 - 20:00</option>
         </select>
 
         <ul id="lista-carrito"></ul>
 
-        <p id="total">Total: $0</p>
+        <div class="total-container">
+            <p id="total">Total: $0.00</p>
+        </div>
 
-        <p class="aviso">
-            Verifica tu pedido antes de enviarlo
-        </p>
-
-        <button onclick="enviarPedido()">Pedir por WhatsApp</button>
-        <button onclick="vaciarCarrito()">Vaciar carrito</button>
-    </aside>
+        <button class="btn-whatsapp" onclick="enviarPedido()">📲 Pedir por WhatsApp</button>
+        <button class="btn-vaciar" onclick="vaciarCarrito()">Vaciar Carrito</button>
+    </div>
 
     <!-- BOTÓN FLOTANTE -->
-    <div class="btn-carrito" onclick="toggleCarrito()">
-        🛒 <span id="contador">0</span>
-    </div>
+    <button class="btn-flotante" onclick="toggleCarrito()">
+        🛒 <span id="contador-flotante">0</span>
+    </button>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <h3>Contáctanos</h3>
-
-        <p>📞 Teléfono: <a href="tel:6641234567">664 123 4567</a></p>
+        <h3>Frutería La Pasadita</h3>
+        <p>📍 Tijuana, Baja California</p>
+        <p>📞 <a href="tel:6641234567">664 123 4567</a></p>
 
         <div class="redes">
-            <a href="https://wa.me/526641234567" target="_blank">WhatsApp</a>
-            <a href="#">Facebook</a>
+            <a href="https://wa.me/526463849069" target="_blank">WhatsApp</a>
             <a href="#">Instagram</a>
+            <a href="#">Facebook</a>
         </div>
 
         <p class="copy">© 2026 Frutería La Pasadita</p>
     </footer>
 
-    <!-- TOAST -->
-    <div id="toast">Producto agregado</div>
-
     <script src="js/script.js"></script>
-
 </body>
 
 </html>
