@@ -1,20 +1,266 @@
 /* =======================
-   🛒 CARRITO DESLIZABLE PRO
+   RESET Y BASE
+======================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* =======================
+   HEADER - VERSIÓN MEJORADA
+======================= */
+
+header {
+    background: #1e3a2f;
+    color: white;
+    padding: 14px 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.65rem;
+    font-weight: 700;
+    white-space: nowrap;
+    /* ← Evita que se parta en dos líneas */
+    flex-shrink: 0;
+}
+
+
+/* En móviles muy pequeños, permitimos que se ajuste */
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.55rem;
+    }
+    .header-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    header input {
+        order: 3;
+    }
+}
+
+header input {
+    padding: 12px 15px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+}
+
+
+/* =======================
+   MENÚ DE CATEGORÍAS
+======================= */
+
+.menu {
+    background: white;
+    padding: 10px 12px;
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.menu-item {
+    background: #f1f5f9;
+    padding: 9px 16px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background: #00c9a7;
+    color: white;
+}
+
+
+/* =======================
+   CARRUSEL
+======================= */
+
+.carousel {
+    width: 350px;
+    max-width: 1200px;
+    height: 200px;
+    /* Puedes bajar a 200px o 220px si quieres más pequeño */
+    margin: 20px auto;
+    /* Centrado y con espacio arriba/abajo */
+    overflow: hidden;
+    border-radius: 16px;
+    /* Bordes redondeados bonitos */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+.carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Esta es la clave */
+    object-position: center;
+    display: block;
+}
+
+
+/* =======================
+   CONTENEDOR PRINCIPAL
+======================= */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    margin: 25px 0 20px 0;
+    text-align: center;
+    color: #1e3a2f;
+    font-weight: 600;
+}
+
+
+/* =======================
+   GRID DE PRODUCTOS
+======================= */
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+}
+
+
+/* =======================
+   TARJETAS DE PRODUCTOS
+======================= */
+
+.card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.09);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #00c9a7;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card button:hover {
+    background: #00b89a;
+}
+
+.card img {
+    width: 100%;
+    height: 155px;
+    object-fit: contain;
+    background: #f8f9fa;
+    padding: 8px;
+}
+
+.card-content {
+    padding: 12px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.card h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+    min-height: 42px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.price {
+    color: #00c9a7;
+    font-size: 1.28rem;
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+.tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4757;
+    color: white;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+
+/* =======================
+   CARRITO
 ======================= */
 
 .carrito {
     position: fixed;
     top: 0;
     right: -100%;
-    height: 100%;
-    width: 80%;
-    max-width: 320px;
-    background: #ffffff;
-    border-radius: 16px 0 0 16px;
-    transition: right 0.3s ease;
+    width: 100%;
+    max-width: 380px;
+    height: 100vh;
+    background: white;
+    box-shadow: -8px 0 25px rgba(0, 0, 0, 0.25);
+    transition: right 0.4s ease;
     z-index: 1000;
-    padding: 18px;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    padding: 20px;
     overflow-y: auto;
 }
 
@@ -22,216 +268,209 @@
     right: 0;
 }
 
+.carrito-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.carrito input,
+.carrito select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.item-carrito {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.cantidad-btns button {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    margin: 0 4px;
+    cursor: pointer;
+}
+
 
 /* =======================
-   🌑 OVERLAY
+   BOTÓN FLOTANTE
+======================= */
+
+.btn-flotante {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: #00c9a7;
+    color: white;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0, 201, 167, 0.35);
+    cursor: pointer;
+    z-index: 1100;
+}
+
+
+/* =======================
+   OVERLAY
 ======================= */
 
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     opacity: 0;
-    pointer-events: none;
-    transition: 0.3s ease;
+    visibility: hidden;
+    transition: all 0.3s;
     z-index: 900;
 }
 
 .overlay.activo {
     opacity: 1;
-    pointer-events: all;
+    visibility: visible;
 }
 
 
 /* =======================
-   🛒 BOTÓN FLOTANTE
+   BOTONES DEL CARRITO
 ======================= */
 
-.btn-carrito {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background: #16a34a;
-    color: white;
-    padding: 12px 14px;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    z-index: 1100;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-carrito span {
-    background: white;
-    color: #16a34a;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 12px;
-}
-
-.btn-carrito:hover {
-    transform: scale(1.05);
-}
-
-
-/* =======================
-   📂 MENU LIMPIO
-======================= */
-
-.menu {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    background: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 8px;
-}
-
-.menu div {
-    padding: 6px 12px;
-    border-radius: 20px;
-    background: #f1f5f9;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.menu div:hover {
-    background: #16a34a;
-    color: white;
-}
-
-
-/* =======================
-   🧱 LAYOUT PRODUCTOS
-======================= */
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
-}
-
-.card {
-    width: 200px;
-    margin: 10px;
-}
-
-
-/* =======================
-   🖼️ IMÁGENES CONTROLADAS
-======================= */
-
-.card img {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-    transition: transform 0.25s ease;
-}
-
-.card:hover img {
-    transform: scale(1.05);
-}
-
-
-/* =======================
-   📱 MOBILE OPTIMIZADO
-======================= */
-
-@media (max-width: 768px) {
-
-    header {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 26px;
-    }
-
-    input {
-        width: 90%;
-        font-size: 14px;
-    }
-
-    .menu {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-    }
-
-    .menu div {
-        flex: 0 0 auto;
-    }
-
-    .card {
-        width: 46%;
-        margin: 6px;
-    }
-
-    .card img {
-        height: 130px;
-    }
-}
-
-
-/* =======================
-   🎯 DETALLES FINOS
-======================= */
-
-.carrito h3 {
-    font-size: 18px;
-}
-
-.carrito li {
-    font-size: 14px;
-    margin-bottom: 8px;
-}
-
-.carrito input,
-.carrito select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-}
-
-.carrito button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    background: #22c55e;
+.btn-whatsapp {
+    background: #25D366;
     color: white;
     border: none;
-    border-radius: 6px;
+    padding: 14px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 12px 0;
     cursor: pointer;
 }
 
-.carrito button:hover {
-    background: #16a34a;
+.btn-vaciar {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 
 /* =======================
-   🔔 TOAST
+   TOAST
 ======================= */
 
-#toast {
+.toast {
     position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background: #22c55e;
+    bottom: 85px;
+    right: 15px;
+    left: 15px;
+    margin: 0 auto;
+    max-width: 340px;
+    background: #1e3a2f;
     color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     opacity: 0;
-    transition: 0.3s;
+    transform: translateY(20px);
+    transition: all 0.4s;
+    z-index: 1200;
+    text-align: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =======================
+   FOOTER
+======================= */
+
+.footer {
+    background: #1e3a2f;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: #67e8b5;
+    text-decoration: none;
+}
+
+.redes a {
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+.copy {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (min-width: 769px) {
+    .header-content {
+        flex-direction: row;
+        align-items: center;
+    }
+    .carousel {
+        height: 260px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 20px;
+    }
+    .card img {
+        height: 175px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel {
+        height: 170px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 14px;
+    }
+    .card img {
+        height: 145px;
+    }
 }
