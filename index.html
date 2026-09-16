@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mate Fácil</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>📘 Mate Fácil</h1>
+        <p>Aprende matemáticas paso a paso</p>
+    </header>
+
+
+    <main>
+
+        <!-- =========================
+         INICIO
+    ========================== -->
+
+        <section id="inicio" class="pantalla">
+
+            <h2>¿Qué quieres aprender?</h2>
+
+            <p class="subtitulo">
+                Aprende, practica y avanza a tu ritmo.
+            </p>
+
+            <div class="temas">
+
+                <button class="tema" onclick="abrirTema('signos')">
+
+                <span class="tema-icono">➕➖</span>
+
+                <strong>Reglas de los signos</strong>
+
+                <small>
+                    Multiplicación y división
+                </small>
+
+                <div class="progreso-tema">
+                    <div id="barra-signos"></div>
+                </div>
+
+                <span id="texto-progreso-signos" class="texto-progreso">
+                    Sin comenzar
+                </span>
+
+            </button>
+
+
+                <button class="tema" onclick="abrirTema('suma')">
+
+                <span class="tema-icono">🔢</span>
+
+                <strong>Suma y resta</strong>
+
+                <small>
+                    Números positivos y negativos
+                </small>
+
+                <div class="progreso-tema">
+                    <div id="barra-suma"></div>
+                </div>
+
+                <span id="texto-progreso-suma" class="texto-progreso">
+                    Sin comenzar
+                </span>
+
+            </button>
+
+
+                <button class="tema" onclick="abrirTema('jerarquia')">
+
+                <span class="tema-icono">🧮</span>
+
+                <strong>Jerarquía de operaciones</strong>
+
+                <small>
+                    Qué operación hacer primero
+                </small>
+
+                <div class="progreso-tema">
+                    <div id="barra-jerarquia"></div>
+                </div>
+
+                <span id="texto-progreso-jerarquia" class="texto-progreso">
+                    Sin comenzar
+                </span>
+
+            </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+         LECCIÓN
+    ========================== -->
+
+        <section id="leccion" class="pantalla oculto">
+
+            <button class="volver" onclick="volverInicio()">
+            ← Volver
+        </button>
+
+            <h2 id="tituloTema"></h2>
+
+            <div class="nivel-recomendado">
+
+                <span>Nivel recomendado:</span>
+
+                <strong id="nivelRecomendado">
+                🟢 Fácil
+            </strong>
+
+            </div>
+
+
+            <div class="explicacion">
+
+                <h3>📖 Aprende</h3>
+
+                <p id="textoExplicacion"></p>
+
+            </div>
+
+
+            <div class="ejemplo">
+
+                <h3>💡 Ejemplo</h3>
+
+                <div id="ejemploTexto"></div>
+
+            </div>
+
+
+            <div class="niveles">
+
+                <h3>🎯 Nivel de práctica</h3>
+
+                <p class="texto-nivel">
+                    Puedes cambiar el nivel cuando quieras.
+                </p>
+
+
+                <div class="niveles-botones">
+
+                    <button id="nivelFacil" class="nivel" onclick="seleccionarNivel('facil')">
+
+                    <span>🟢</span>
+                    <strong>Fácil</strong>
+                    <small>Para comenzar</small>
+
+                </button>
+
+
+                    <button id="nivelMedio" class="nivel" onclick="seleccionarNivel('medio')">
+
+                    <span>🟡</span>
+                    <strong>Medio</strong>
+                    <small>Un poco más difícil</small>
+
+                </button>
+
+
+                    <button id="nivelDificil" class="nivel" onclick="seleccionarNivel('dificil')">
+
+                    <span>🔴</span>
+                    <strong>Difícil</strong>
+                    <small>Para dominarlo</small>
+
+                </button>
+
+                </div>
+
+            </div>
+
+
+            <button class="principal" onclick="comenzarEjercicio()">
+            ¡Comenzar!
+        </button>
+
+        </section>
+
+
+        <!-- =========================
+         EJERCICIO
+    ========================== -->
+
+        <section id="ejercicio" class="pantalla oculto">
+
+            <div class="barra-superior">
+
+                <span id="contador">
+                Ejercicio 1 de 10
+            </span>
+
+                <span id="puntos">
+                ⭐ 0 puntos
+            </span>
+
+            </div>
+
+
+            <div class="nivel-actual" id="nivelActual">
+                🟢 Fácil
+            </div>
+
+
+            <h2>Resuelve:</h2>
+
+
+            <div id="pregunta" class="pregunta">
+                5 × -1
+            </div>
+
+
+            <input type="number" id="respuesta" placeholder="Escribe tu respuesta" autocomplete="off">
+
+
+            <button id="botonComprobar" class="principal" onclick="comprobarRespuesta()">
+
+            Comprobar
+
+        </button>
+
+
+            <div id="mensaje" class="mensaje">
+            </div>
+
+
+            <div id="opcionesAyuda" class="ayuda oculto">
+
+                <button onclick="mostrarPista()">
+                💡 Ver una pista
+            </button>
+
+                <button onclick="mostrarSolucion()">
+                📖 Ver solución paso a paso
+            </button>
+
+            </div>
+
+
+            <div id="ayudaTexto"></div>
+
+
+            <button id="siguiente" class="principal oculto" onclick="nuevoEjercicio()">
+
+            Siguiente ejercicio →
+
+        </button>
+
+        </section>
+
+
+        <!-- =========================
+         RESULTADO
+    ========================== -->
+
+        <section id="resultado" class="pantalla resultado-pantalla oculto">
+
+            <div id="tarjetaLogro" class="tarjeta-logro">
+
+                <div class="confeti">
+                    🎉 🎉 🎉
+                </div>
+
+                <h2>¡TEMA COMPLETADO!</h2>
+
+                <p id="resultadoTema">
+                    Reglas de los signos
+                </p>
+
+
+                <div class="gran-puntuacion">
+
+                    <span id="resultadoPuntos">
+                    90
+                </span>
+
+                    <small>
+                    / 100
+                </small>
+
+                </div>
+
+
+                <div class="resultado-nivel">
+                    🟢 NIVEL FÁCIL
+                </div>
+
+
+                <div class="estadisticas">
+
+                    <div>
+                        <strong id="resultadoCorrectas">
+                        9
+                    </strong>
+
+                        <span>Correctas</span>
+                    </div>
+
+
+                    <div>
+                        <strong id="resultadoEjercicios">
+                        10
+                    </strong>
+
+                        <span>Ejercicios</span>
+                    </div>
+
+
+                    <div>
+                        <strong id="resultadoRacha">
+                        🔥 5
+                    </strong>
+
+                        <span>Racha</span>
+                    </div>
+
+                </div>
+
+
+                <div class="mensaje-final">
+
+                    <strong id="mensajeFinal">
+                    ¡Excelente trabajo!
+                </strong>
+
+                    <p>
+                        Sigue practicando para dominar las matemáticas.
+                    </p>
+
+                </div>
+
+
+                <div class="marca">
+                    📘 MATE FÁCIL
+                </div>
+
+            </div>
+
+
+            <div class="botones-resultado">
+
+                <button class="principal" onclick="descargarLogro()">
+
+                📸 Descargar mi logro
+
+            </button>
+
+
+                <button class="secundario" onclick="volverInicio()">
+
+                ← Seguir aprendiendo
+
+            </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Mate Fácil · Aprende a tu ritmo
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
