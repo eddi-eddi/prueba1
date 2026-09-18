@@ -1,711 +1,340 @@
-/* =====================================
-   MATE FÁCIL - V2
-   Lógica principal
-===================================== */
-
-
-/* =====================================
-   CONFIGURACIÓN
-===================================== */
-
 const TOTAL_EJERCICIOS = 10;
-
 const STORAGE_KEY = "mateFacilV2";
 
-
-/* =====================================
-   VARIABLES
-===================================== */
-
 let temaActual = "";
-
 let nivelActual = "facil";
-
 let ejercicioActual = 0;
-
 let puntos = 0;
-
 let correctas = 0;
-
 let rachaActual = 0;
-
 let mejorRacha = 0;
-
 let errores = 0;
 
 let respuestaCorrecta = 0;
-
 let datosPregunta = {};
 
-
-/* =====================================
-   PROGRESO DEL ALUMNO
-===================================== */
-
-let progreso = cargarProgreso();
-
-
-/* =====================================
-   DATOS DE LOS TEMAS
-===================================== */
-
-const temas = {
-
-    signos: {
-
-        titulo: "Reglas de los signos",
-
-        explicacion: "Cuando multiplicamos o dividimos números con signos, debemos observar si los signos son iguales o diferentes. Signos iguales dan positivo. Signos diferentes dan negativo.",
-
-        ejemplo: `
-            <div class="formula">
-                (+5) × (+2) = +10
-            </div>
-
-            <div class="formula">
-                (+5) × (-2) = -10
-            </div>
-
-            <div class="formula">
-                (-5) × (-2) = +10
-            </div>
-        `
-
-    },
-
-
-    suma: {
-
-        titulo: "Suma y resta",
-
-        explicacion: "Los números positivos pueden imaginarse como avanzar y los negativos como retroceder. Cuando sumamos números con signos, debemos observar hacia qué dirección nos estamos moviendo.",
-
-        ejemplo: `
-            <div class="formula">
-                5 + 3 = 8
-            </div>
-
-            <div class="formula">
-                5 + (-3) = 2
-            </div>
-
-            <div class="formula">
-                -5 + 3 = -2
-            </div>
-        `
-
-    },
-
-
-    jerarquia: {
-
-        titulo: "Jerarquía de operaciones",
-
-        explicacion: "Cuando una operación tiene varias cuentas, no hacemos todo al mismo tiempo. Primero resolvemos los paréntesis, después las multiplicaciones y divisiones, y finalmente las sumas y restas.",
-
-        ejemplo: `
-            <div class="formula">
-                2 + 3 × 4
-            </div>
-
-            <p>
-                Primero hacemos la multiplicación:
-            </p>
-
-            <div class="formula">
-                3 × 4 = 12
-            </div>
-
-            <div class="formula">
-                2 + 12 = 14
-            </div>
-        `
-
-    }
-
+let progreso = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    signos: 0,
+    suma: 0,
+    jerarquia: 0
 };
 
 
-/* =====================================
-   CARGAR PROGRESO
-===================================== */
+// ================================
+// DATOS DE LOS TEMAS
+// ================================
 
-function cargarProgreso() {
+const temas = {
+    signos: {
+        titulo: "Reglas de los signos",
+        explicacion: `
+            Cuando multiplicamos o dividimos números con signos,
+            debemos observar primero los signos.
+            
+            Signos iguales → resultado positivo.
+            Signos diferentes → resultado negativo.
+        `,
+        ejemplo: "-6 × -4 = +24"
+    },
 
-    const guardado =
-        localStorage.getItem(STORAGE_KEY);
+    suma: {
+        titulo: "Suma y resta de números enteros",
+        explicacion: `
+            Cuando los números tienen el mismo signo,
+            sumamos sus valores y conservamos el signo.
+            
+            Cuando tienen signos diferentes,
+            restamos y conservamos el signo del número con mayor valor absoluto.
+        `,
+        ejemplo: "-8 + 5 = -3"
+    },
 
-    if (guardado) {
-
-        try {
-
-            return JSON.parse(guardado);
-
-        } catch (error) {
-
-            console.log(
-                "No se pudo cargar el progreso."
-            );
-
-        }
-
+    jerarquia: {
+        titulo: "Jerarquía de operaciones",
+        explicacion: `
+            Cuando tenemos varias operaciones,
+            debemos respetar un orden.
+            
+            Primero multiplicaciones y divisiones.
+            Después sumas y restas.
+        `,
+        ejemplo: "4 + 3 × 2 = 10"
     }
+};
 
 
-    return {
+// ================================
+// INICIO
+// ================================
 
-        signos: 0,
-
-        suma: 0,
-
-        jerarquia: 0
-
-    };
-
-}
-
-
-/* =====================================
-   GUARDAR PROGRESO
-===================================== */
-
-function guardarProgreso() {
-
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify(progreso)
-
-    );
-
-}
-
-
-/* =====================================
-   ACTUALIZAR PANTALLA INICIAL
-===================================== */
-
-function actualizarProgresoPantalla() {
-
-    const listaTemas = [
-        "signos",
-        "suma",
-        "jerarquia"
-    ];
-
-
-    listaTemas.forEach(function(tema) {
-
-        const valor = progreso[tema];
-
-
-        const barra =
-            document.getElementById(
-                `barra-${tema}`
-            );
-
-
-        const texto =
-            document.getElementById(
-                `texto-progreso-${tema}`
-            );
-
-
-        barra.style.width =
-            `${valor}%`;
-
-
-        if (valor === 0) {
-
-            texto.textContent =
-                "Sin comenzar";
-
-        } else if (valor < 60) {
-
-            texto.textContent =
-                `${valor}% de progreso`;
-
-        } else if (valor < 85) {
-
-            texto.textContent =
-                `${valor}% · En progreso`;
-
-        } else if (valor < 100) {
-
-            texto.textContent =
-                `${valor}% · Casi dominado`;
-
-        } else {
-
-            texto.textContent =
-                "🏆 Tema dominado";
-
-        }
-
-    });
-
-}
-
-
-/* =====================================
-   NIVEL RECOMENDADO
-===================================== */
-
-function obtenerNivelRecomendado(tema) {
-
-    const avance =
-        progreso[tema];
-
-
-    if (avance < 60) {
-
-        return "facil";
-
-    }
-
-
-    if (avance < 85) {
-
-        return "medio";
-
-    }
-
-
-    return "dificil";
-
-}
-
-
-/* =====================================
-   TEXTO DEL NIVEL
-===================================== */
-
-function textoNivel(nivel) {
-
-    if (nivel === "facil") {
-
-        return "🟢 Fácil";
-
-    }
-
-
-    if (nivel === "medio") {
-
-        return "🟡 Medio";
-
-    }
-
-
-    return "🔴 Difícil";
-
-}
-
-
-/* =====================================
-   ABRIR TEMA
-===================================== */
-
-function abrirTema(tema) {
+function iniciarTema(tema) {
 
     temaActual = tema;
 
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("leccion").style.display = "block";
+    document.getElementById("ejercicio").style.display = "none";
+    document.getElementById("resultado").style.display = "none";
 
-    document.getElementById("inicio")
-        .classList.add("oculto");
+    const datos = temas[tema];
 
+    document.getElementById("tituloLeccion").textContent = datos.titulo;
+    document.getElementById("explicacion").textContent = datos.explicacion;
+    document.getElementById("ejemplo").textContent = datos.ejemplo;
 
-    document.getElementById("leccion")
-        .classList.remove("oculto");
+    const recomendado = obtenerNivelRecomendado(tema);
 
+    document.getElementById("nivelRecomendado").textContent =
+        "Nivel recomendado: " + nombreNivel(recomendado);
 
-    document.getElementById("tituloTema")
-        .textContent =
-        temas[tema].titulo;
-
-
-    document.getElementById("textoExplicacion")
-        .textContent =
-        temas[tema].explicacion;
-
-
-    document.getElementById("ejemploTexto")
-        .innerHTML =
-        temas[tema].ejemplo;
-
-
-    const recomendado =
-        obtenerNivelRecomendado(tema);
-
-
-    seleccionarNivel(recomendado);
-
-
-    document.getElementById(
-            "nivelRecomendado"
-        ).textContent =
-        textoNivel(recomendado) +
-        " · Recomendado";
-
+    nivelActual = recomendado;
 }
 
 
-/* =====================================
-   SELECCIONAR NIVEL
-===================================== */
+// ================================
+// NIVELES
+// ================================
+
+function nombreNivel(nivel) {
+
+    if (nivel === "facil") return "Fácil";
+    if (nivel === "medio") return "Medio";
+    if (nivel === "dificil") return "Difícil";
+
+    return nivel;
+}
+
+
+function obtenerNivelRecomendado(tema) {
+
+    const avance = progreso[tema] || 0;
+
+    if (avance < 60) {
+        return "facil";
+    }
+
+    if (avance < 85) {
+        return "medio";
+    }
+
+    return "dificil";
+}
+
 
 function seleccionarNivel(nivel) {
 
     nivelActual = nivel;
 
+    document.querySelectorAll(".nivel").forEach(boton => {
+        boton.classList.remove("seleccionado");
+    });
 
-    document.getElementById(
-        "nivelFacil"
-    ).classList.remove("seleccionado");
+    const boton = document.getElementById("nivel-" + nivel);
 
-
-    document.getElementById(
-        "nivelMedio"
-    ).classList.remove("seleccionado");
-
-
-    document.getElementById(
-        "nivelDificil"
-    ).classList.remove("seleccionado");
-
-
-    if (nivel === "facil") {
-
-        document.getElementById(
-            "nivelFacil"
-        ).classList.add("seleccionado");
-
+    if (boton) {
+        boton.classList.add("seleccionado");
     }
-
-
-    if (nivel === "medio") {
-
-        document.getElementById(
-            "nivelMedio"
-        ).classList.add("seleccionado");
-
-    }
-
-
-    if (nivel === "dificil") {
-
-        document.getElementById(
-            "nivelDificil"
-        ).classList.add("seleccionado");
-
-    }
-
 }
 
 
-/* =====================================
-   COMENZAR EJERCICIOS
-===================================== */
+// ================================
+// COMENZAR EJERCICIOS
+// ================================
 
-function comenzarEjercicio() {
+function comenzarEjercicios() {
 
     ejercicioActual = 0;
-
     puntos = 0;
-
     correctas = 0;
-
+    rachaActual = 0;
+    mejorRacha = 0;
     errores = 0;
 
-    rachaActual = 0;
+    document.getElementById("leccion").style.display = "none";
+    document.getElementById("ejercicio").style.display = "block";
+    document.getElementById("resultado").style.display = "none";
 
-    mejorRacha = 0;
-
-
-    document.getElementById("leccion")
-        .classList.add("oculto");
-
-
-    document.getElementById("ejercicio")
-        .classList.remove("oculto");
-
-
-    document.getElementById("nivelActual")
-        .textContent =
-        textoNivel(nivelActual);
-
-
-    nuevoEjercicio();
-
+    siguienteEjercicio();
 }
 
 
-/* =====================================
-   NUEVO EJERCICIO
-===================================== */
+// ================================
+// SIGUIENTE EJERCICIO
+// ================================
 
-function nuevoEjercicio() {
+function siguienteEjercicio() {
 
-    ejercicioActual++;
-
-
-    if (
-        ejercicioActual >
-        TOTAL_EJERCICIOS
-    ) {
+    if (ejercicioActual >= TOTAL_EJERCICIOS) {
 
         terminar();
 
         return;
-
     }
 
+    ejercicioActual++;
 
-    document.getElementById("contador")
-        .textContent =
-        `Ejercicio ${ejercicioActual} de ${TOTAL_EJERCICIOS}`;
+    document.getElementById("numeroEjercicio").textContent =
+        ejercicioActual + " / " + TOTAL_EJERCICIOS;
 
+    document.getElementById("puntos").textContent = puntos;
 
-    document.getElementById("puntos")
-        .textContent =
-        `⭐ ${puntos} puntos`;
+    document.getElementById("nivelActual").textContent =
+        nombreNivel(nivelActual);
 
+    document.getElementById("mensaje").textContent = "";
 
-    limpiarEjercicio();
+    document.getElementById("respuesta").value = "";
 
+    document.getElementById("respuesta").disabled = false;
+
+    document.getElementById("btnComprobar").disabled = false;
+
+    document.getElementById("btnSiguiente").style.display = "none";
+
+    document.getElementById("ayuda").style.display = "none";
+    document.getElementById("solucion").style.display = "none";
 
     generarPregunta();
 
+    document.getElementById("pregunta").textContent =
+        datosPregunta.texto;
+
+    // IMPORTANTE:
+    // La respuesta se calcula nuevamente para cada pregunta.
+    respuestaCorrecta = datosPregunta.resultado;
+
+    document.getElementById("respuesta").focus();
 }
 
 
-/* =====================================
-   LIMPIAR EJERCICIO
-===================================== */
-
-function limpiarEjercicio() {
-
-    const respuesta =
-        document.getElementById(
-            "respuesta"
-        );
-
-
-    respuesta.value = "";
-
-    respuesta.disabled = false;
-
-
-    document.getElementById(
-        "botonComprobar"
-    ).disabled = false;
-
-
-    document.getElementById(
-        "mensaje"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-            "mensaje"
-        ).className =
-        "mensaje";
-
-
-    document.getElementById(
-        "opcionesAyuda"
-    ).classList.add("oculto");
-
-
-    document.getElementById(
-        "ayudaTexto"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-        "siguiente"
-    ).classList.add("oculto");
-
-}
-
-
-/* =====================================
-   NÚMERO ALEATORIO
-===================================== */
-
-function numeroAleatorio(min, max) {
-
-    return Math.floor(
-
-        Math.random() *
-        (max - min + 1)
-
-    ) + min;
-
-}
-
-
-/* =====================================
-   SIGNO ALEATORIO
-===================================== */
-
-function signoAleatorio() {
-
-    return Math.random() < 0.5 ?
-        1 :
-        -1;
-
-}
-
-
-/* =====================================
-   GENERAR PREGUNTA
-===================================== */
+// ================================
+// GENERADOR GENERAL
+// ================================
 
 function generarPregunta() {
 
     if (temaActual === "signos") {
-
         generarPreguntaSignos();
-
-    } else if (temaActual === "suma") {
-
-        generarPreguntaSuma();
-
-    } else if (temaActual === "jerarquia") {
-
-        generarPreguntaJerarquia();
-
+        return;
     }
 
+    if (temaActual === "suma") {
+        generarPreguntaSuma();
+        return;
+    }
+
+    if (temaActual === "jerarquia") {
+        generarPreguntaJerarquia();
+        return;
+    }
 }
 
 
-/* =====================================
-   PREGUNTAS DE SIGNOS
-===================================== */
+// ================================
+// LEY DE LOS SIGNOS
+// ================================
 
 function generarPreguntaSignos() {
 
     let a;
-
     let b;
-
-
-    /* -------- FÁCIL -------- */
 
     if (nivelActual === "facil") {
 
-        a =
-            numeroAleatorio(1, 10) *
-            signoAleatorio();
+        a = numeroAleatorio(1, 10);
+        b = numeroAleatorio(1, 10);
 
-        b =
-            numeroAleatorio(1, 10) *
-            signoAleatorio();
+    } else if (nivelActual === "medio") {
 
+        a = numeroAleatorio(5, 25);
+        b = numeroAleatorio(2, 12);
+
+    } else {
+
+        // NIVEL DIFÍCIL
+        a = numeroAleatorio(10, 50);
+        b = numeroAleatorio(5, 20);
     }
 
 
-    /* -------- MEDIO -------- */
-    else if (nivelActual === "medio") {
+    // Signos aleatorios
+    const signoA = signoAleatorio();
+    const signoB = signoAleatorio();
 
-        a =
-            numeroAleatorio(5, 25) *
-            signoAleatorio();
-
-        b =
-            numeroAleatorio(2, 12) *
-            signoAleatorio();
-
-    }
+    const numeroA = a * signoA;
+    const numeroB = b * signoB;
 
 
-    /* -------- DIFÍCIL -------- */
-    else {
+    // ==================================================
+    // CÁLCULO CORRECTO
+    // ==================================================
 
-        a =
-            numeroAleatorio(10, 50) *
-            signoAleatorio();
-
-        b =
-            numeroAleatorio(5, 20) *
-            signoAleatorio();
-
-    }
+    const resultado = numeroA * numeroB;
 
 
-    respuestaCorrecta =
-        a * b;
-
+    // ==================================================
+    // GUARDAMOS EXACTAMENTE LOS DATOS MOSTRADOS
+    // ==================================================
 
     datosPregunta = {
 
         tipo: "signos",
 
-        a: a,
+        a: numeroA,
+        b: numeroB,
 
-        b: b,
+        operacion: "×",
 
-        operacion: "×"
+        resultado: resultado,
 
+        texto: `${formatearNumero(numeroA)} × ${formatearNumero(numeroB)} = ?`
     };
 
 
-    document.getElementById(
-            "pregunta"
-        ).textContent =
-        `${mostrarNumero(a)} × ${mostrarNumero(b)}`;
+    // Validación interna
+    if (numeroA * numeroB !== resultado) {
 
+        console.error(
+            "ERROR DE CÁLCULO:",
+            numeroA,
+            numeroB,
+            resultado
+        );
+    }
 }
 
 
-/* =====================================
-   PREGUNTAS DE SUMA
-===================================== */
+// ================================
+// SUMA
+// ================================
 
 function generarPreguntaSuma() {
 
     let a;
-
     let b;
-
 
     if (nivelActual === "facil") {
 
-        a =
-            numeroAleatorio(1, 10) *
-            signoAleatorio();
-
-        b =
-            numeroAleatorio(1, 10) *
-            signoAleatorio();
+        a = numeroAleatorio(1, 10);
+        b = numeroAleatorio(1, 10);
 
     } else if (nivelActual === "medio") {
 
-        a =
-            numeroAleatorio(5, 30) *
-            signoAleatorio();
-
-        b =
-            numeroAleatorio(5, 30) *
-            signoAleatorio();
+        a = numeroAleatorio(5, 30);
+        b = numeroAleatorio(5, 30);
 
     } else {
 
-        a =
-            numeroAleatorio(10, 80) *
-            signoAleatorio();
-
-        b =
-            numeroAleatorio(10, 80) *
-            signoAleatorio();
-
+        a = numeroAleatorio(10, 80);
+        b = numeroAleatorio(10, 80);
     }
 
 
-    respuestaCorrecta =
-        a + b;
+    a *= signoAleatorio();
+    b *= signoAleatorio();
+
+
+    const resultado = a + b;
 
 
     datosPregunta = {
@@ -713,73 +342,48 @@ function generarPreguntaSuma() {
         tipo: "suma",
 
         a: a,
-
         b: b,
 
-        operacion: "+"
+        operacion: "+",
 
+        resultado: resultado,
+
+        texto: `${formatearNumero(a)} + ${formatearNumero(b)} = ?`
     };
-
-
-    document.getElementById(
-            "pregunta"
-        ).textContent =
-        `${mostrarNumero(a)} + ${mostrarNumero(b)}`;
-
 }
 
 
-/* =====================================
-   PREGUNTAS DE JERARQUÍA
-===================================== */
+// ================================
+// JERARQUÍA
+// ================================
 
 function generarPreguntaJerarquia() {
 
     let a;
-
     let b;
-
     let c;
-
 
     if (nivelActual === "facil") {
 
-        a =
-            numeroAleatorio(1, 5);
-
-        b =
-            numeroAleatorio(1, 5);
-
-        c =
-            numeroAleatorio(1, 5);
+        a = numeroAleatorio(1, 5);
+        b = numeroAleatorio(1, 5);
+        c = numeroAleatorio(1, 5);
 
     } else if (nivelActual === "medio") {
 
-        a =
-            numeroAleatorio(2, 15);
-
-        b =
-            numeroAleatorio(2, 10);
-
-        c =
-            numeroAleatorio(2, 8);
+        a = numeroAleatorio(2, 15);
+        b = numeroAleatorio(2, 10);
+        c = numeroAleatorio(2, 8);
 
     } else {
 
-        a =
-            numeroAleatorio(5, 30);
-
-        b =
-            numeroAleatorio(2, 15);
-
-        c =
-            numeroAleatorio(2, 12);
-
+        a = numeroAleatorio(5, 30);
+        b = numeroAleatorio(2, 15);
+        c = numeroAleatorio(2, 12);
     }
 
 
-    respuestaCorrecta =
-        a + (b * c);
+    const resultado = a + (b * c);
 
 
     datosPregunta = {
@@ -787,932 +391,469 @@ function generarPreguntaJerarquia() {
         tipo: "jerarquia",
 
         a: a,
-
         b: b,
-
         c: c,
 
-        operacion: "+"
+        resultado: resultado,
 
+        texto: `${a} + ${b} × ${c} = ?`
     };
-
-
-    document.getElementById(
-            "pregunta"
-        ).textContent =
-        `${a} + ${b} × ${c}`;
-
 }
 
 
-/* =====================================
-   MOSTRAR NÚMERO
-===================================== */
-
-function mostrarNumero(numero) {
-
-    if (numero > 0) {
-
-        return `+${numero}`;
-
-    }
-
-
-    return numero;
-
-}
-
-
-/* =====================================
-   COMPROBAR RESPUESTA
-===================================== */
+// ================================
+// COMPROBAR RESPUESTA
+// ================================
 
 function comprobarRespuesta() {
 
-    const entrada =
-        document.getElementById(
-            "respuesta"
-        ).value;
+    const input = document.getElementById("respuesta");
+
+    const respuestaUsuario = Number(input.value);
 
 
-    if (entrada === "") {
+    if (input.value.trim() === "") {
 
-        alert(
-            "Escribe una respuesta."
-        );
+        document.getElementById("mensaje").textContent =
+            "Escribe una respuesta.";
 
         return;
-
     }
 
 
-    const respuestaUsuario =
-        Number(entrada);
+    // ==================================================
+    // COMPARACIÓN DIRECTA
+    // ==================================================
+
+    if (respuestaUsuario === respuestaCorrecta) {
+
+        correctas++;
+
+        rachaActual++;
+
+        if (rachaActual > mejorRacha) {
+            mejorRacha = rachaActual;
+        }
 
 
-    if (
-        respuestaUsuario ===
-        respuestaCorrecta
-    ) {
+        let puntosPregunta = 10;
 
-        respuestaCorrectaAccion();
+        if (nivelActual === "medio") {
+            puntosPregunta = 12;
+        }
+
+        if (nivelActual === "dificil") {
+            puntosPregunta = 15;
+        }
+
+
+        puntos += puntosPregunta;
+
+
+        document.getElementById("mensaje").textContent =
+            "¡Correcto! ✓";
+
+
+        input.disabled = true;
+
+        document.getElementById("btnComprobar").disabled = true;
+
+        document.getElementById("btnSiguiente").style.display = "inline-block";
+
 
     } else {
 
-        respuestaIncorrectaAccion();
+        errores++;
 
+        rachaActual = 0;
+
+
+        document.getElementById("mensaje").textContent =
+            "No es correcto. Revisa los signos y vuelve a intentarlo.";
+
+        input.select();
     }
-
 }
 
 
-/* =====================================
-   RESPUESTA CORRECTA
-===================================== */
+// ================================
+// AYUDA
+// ================================
 
-function respuestaCorrectaAccion() {
+function mostrarAyuda() {
 
-    correctas++;
+    const ayuda = document.getElementById("ayuda");
 
-    rachaActual++;
+    ayuda.style.display = "block";
 
 
-    if (
-        rachaActual >
-        mejorRacha
-    ) {
+    if (temaActual === "signos") {
 
-        mejorRacha =
-            rachaActual;
-
+        ayuda.textContent =
+            "Recuerda: signos iguales = positivo. Signos diferentes = negativo.";
     }
 
 
-    /* Puntos */
+    if (temaActual === "suma") {
 
-    let puntosEjercicio = 10;
-
-
-    if (nivelActual === "medio") {
-
-        puntosEjercicio = 12;
-
+        ayuda.textContent =
+            "Si los signos son iguales, suma. Si son diferentes, resta y conserva el signo del número mayor.";
     }
 
 
-    if (nivelActual === "dificil") {
+    if (temaActual === "jerarquia") {
 
-        puntosEjercicio = 15;
-
+        ayuda.textContent =
+            "Recuerda hacer primero la multiplicación y después la suma.";
     }
-
-
-    puntos += puntosEjercicio;
-
-
-    document.getElementById(
-        "respuesta"
-    ).disabled = true;
-
-
-    document.getElementById(
-        "botonComprobar"
-    ).disabled = true;
-
-
-    document.getElementById(
-            "mensaje"
-        ).className =
-        "mensaje correcto";
-
-
-    document.getElementById(
-            "mensaje"
-        ).innerHTML =
-        `✅ ¡Correcto! Muy bien. 🔥 Racha de ${rachaActual}`;
-
-
-    document.getElementById(
-        "opcionesAyuda"
-    ).classList.add("oculto");
-
-
-    document.getElementById(
-        "siguiente"
-    ).classList.remove("oculto");
-
-
-    document.getElementById(
-            "puntos"
-        ).textContent =
-        `⭐ ${puntos} puntos`;
-
 }
 
 
-/* =====================================
-   RESPUESTA INCORRECTA
-===================================== */
-
-function respuestaIncorrectaAccion() {
-
-    errores++;
-
-    rachaActual = 0;
-
-
-    document.getElementById(
-            "mensaje"
-        ).className =
-        "mensaje incorrecto";
-
-
-    document.getElementById(
-            "mensaje"
-        ).innerHTML =
-        "❌ Todavía no. Revisa la pista o mira cómo se resuelve paso a paso.";
-
-
-    document.getElementById(
-        "opcionesAyuda"
-    ).classList.remove("oculto");
-
-}
-
-
-/* =====================================
-   PISTA
-===================================== */
-
-function mostrarPista() {
-
-    let html = "";
-
-
-    if (
-        datosPregunta.tipo ===
-        "signos"
-    ) {
-
-        const a =
-            datosPregunta.a;
-
-        const b =
-            datosPregunta.b;
-
-
-        const signoA =
-            a < 0 ?
-            "negativo" :
-            "positivo";
-
-
-        const signoB =
-            b < 0 ?
-            "negativo" :
-            "positivo";
-
-
-        html = `
-
-            <div class="paso">
-                💡 El primer número es
-                <strong>${signoA}</strong>.
-            </div>
-
-            <div class="paso">
-                💡 El segundo número es
-                <strong>${signoB}</strong>.
-            </div>
-
-            <div class="paso">
-                💡 Ahora recuerda:
-                signos iguales = positivo.
-                Signos diferentes = negativo.
-            </div>
-
-        `;
-
-    } else if (
-        datosPregunta.tipo ===
-        "suma"
-    ) {
-
-        html = `
-
-            <div class="paso">
-                💡 Observa primero los signos.
-            </div>
-
-            <div class="paso">
-                💡 Si tienen el mismo signo,
-                los valores se suman.
-            </div>
-
-            <div class="paso">
-                💡 Si tienen signos diferentes,
-                puedes calcular la diferencia.
-            </div>
-
-        `;
-
-    } else if (
-        datosPregunta.tipo ===
-        "jerarquia"
-    ) {
-
-        html = `
-
-            <div class="paso">
-                💡 No resuelvas la operación
-                simplemente de izquierda a derecha.
-            </div>
-
-            <div class="paso">
-                💡 Primero busca la multiplicación.
-            </div>
-
-            <div class="paso">
-                💡 Después realiza la suma.
-            </div>
-
-        `;
-
-    }
-
-
-    document.getElementById(
-        "ayudaTexto"
-    ).innerHTML = html;
-
-}
-
-
-/* =====================================
-   SOLUCIÓN PASO A PASO
-===================================== */
+// ================================
+// SOLUCIÓN PASO A PASO
+// ================================
 
 function mostrarSolucion() {
 
-    let html = "";
+    const solucion = document.getElementById("solucion");
+
+    solucion.style.display = "block";
 
 
-    if (
-        datosPregunta.tipo ===
-        "signos"
-    ) {
+    if (temaActual === "signos") {
 
-        const a =
-            datosPregunta.a;
+        const a = datosPregunta.a;
+        const b = datosPregunta.b;
 
-        const b =
-            datosPregunta.b;
+        const valorA = Math.abs(a);
+        const valorB = Math.abs(b);
 
-
-        const valorA =
-            Math.abs(a);
-
-        const valorB =
-            Math.abs(b);
+        const resultado = datosPregunta.resultado;
 
 
-        const multiplicacion =
-            valorA * valorB;
+        let signoTexto;
 
 
-        const signosIguales =
-            (a > 0 && b > 0) ||
-            (a < 0 && b < 0);
+        if ((a < 0 && b < 0) || (a > 0 && b > 0)) {
 
-
-        const resultadoSigno =
-            signosIguales ?
-            "positivo" :
-            "negativo";
-
-
-        html = `
-
-            <div class="paso">
-                1️⃣ Tenemos:
-                <strong>
-                    ${mostrarNumero(a)}
-                    ×
-                    ${mostrarNumero(b)}
-                </strong>
-            </div>
-
-            <div class="paso">
-                2️⃣ Multiplicamos los valores:
-                ${valorA} × ${valorB}
-                =
-                <strong>${multiplicacion}</strong>
-            </div>
-
-            <div class="paso">
-                3️⃣ Los signos son
-                ${signosIguales
-                    ? "iguales"
-                    : "diferentes"}.
-            </div>
-
-            <div class="paso">
-                4️⃣ Por lo tanto,
-                el resultado es
-                <strong>${resultadoSigno}</strong>.
-            </div>
-
-            <div class="paso">
-                5️⃣ Resultado final:
-                <strong>${respuestaCorrecta}</strong>
-            </div>
-
-        `;
-
-    } else if (
-        datosPregunta.tipo ===
-        "suma"
-    ) {
-
-        const a =
-            datosPregunta.a;
-
-        const b =
-            datosPregunta.b;
-
-
-        if (
-            (a >= 0 && b >= 0) ||
-            (a < 0 && b < 0)
-        ) {
-
-            html = `
-
-                <div class="paso">
-                    1️⃣ Tenemos:
-                    <strong>
-                        ${mostrarNumero(a)}
-                        +
-                        ${mostrarNumero(b)}
-                    </strong>
-                </div>
-
-                <div class="paso">
-                    2️⃣ Los dos números
-                    tienen el mismo signo.
-                </div>
-
-                <div class="paso">
-                    3️⃣ Sumamos sus valores:
-                    ${Math.abs(a)}
-                    +
-                    ${Math.abs(b)}
-                    =
-                    ${Math.abs(respuestaCorrecta)}
-                </div>
-
-                <div class="paso">
-                    4️⃣ Conservamos el signo.
-                </div>
-
-                <div class="paso">
-                    5️⃣ Resultado:
-                    <strong>${respuestaCorrecta}</strong>
-                </div>
-
-            `;
+            signoTexto = "− × − = +";
+            
+            if (a > 0 && b > 0) {
+                signoTexto = "+ × + = +";
+            }
 
         } else {
 
-            html = `
+            signoTexto = "− × + = −";
 
-                <div class="paso">
-                    1️⃣ Tenemos:
-                    <strong>
-                        ${mostrarNumero(a)}
-                        +
-                        ${mostrarNumero(b)}
-                    </strong>
-                </div>
-
-                <div class="paso">
-                    2️⃣ Los signos son diferentes.
-                </div>
-
-                <div class="paso">
-                    3️⃣ Restamos el valor menor
-                    al valor mayor:
-                    ${Math.abs(a)}
-                    y
-                    ${Math.abs(b)}
-                </div>
-
-                <div class="paso">
-                    4️⃣ El signo del resultado
-                    corresponde al número
-                    con mayor valor absoluto.
-                </div>
-
-                <div class="paso">
-                    5️⃣ Resultado:
-                    <strong>${respuestaCorrecta}</strong>
-                </div>
-
-            `;
-
+            if (a > 0 && b < 0) {
+                signoTexto = "+ × − = −";
+            }
         }
 
-    } else if (
-        datosPregunta.tipo ===
-        "jerarquia"
-    ) {
 
-        const a =
-            datosPregunta.a;
+        solucion.innerHTML = `
+            <strong>Paso 1:</strong>
+            Observamos los signos:<br>
+            ${signoTexto}
+            <br><br>
 
-        const b =
-            datosPregunta.b;
+            <strong>Paso 2:</strong>
+            Multiplicamos los números sin los signos:<br>
+            ${valorA} × ${valorB} = ${valorA * valorB}
+            <br><br>
 
-        const c =
-            datosPregunta.c;
-
-
-        const multiplicacion =
-            b * c;
-
-
-        html = `
-
-            <div class="paso">
-                1️⃣ Tenemos:
-                <strong>
-                    ${a} + ${b} × ${c}
-                </strong>
-            </div>
-
-            <div class="paso">
-                2️⃣ Primero hacemos
-                la multiplicación:
-                ${b} × ${c}
-                =
-                <strong>${multiplicacion}</strong>
-            </div>
-
-            <div class="paso">
-                3️⃣ Ahora queda:
-                ${a} + ${multiplicacion}
-            </div>
-
-            <div class="paso">
-                4️⃣ Hacemos la suma.
-            </div>
-
-            <div class="paso">
-                5️⃣ Resultado:
-                <strong>${respuestaCorrecta}</strong>
-            </div>
-
+            <strong>Paso 3:</strong>
+            Aplicamos el signo correspondiente:<br>
+            ${formatearNumero(a)} × ${formatearNumero(b)}
+            = <strong>${formatearNumero(resultado)}</strong>
         `;
 
+        return;
     }
 
 
-    document.getElementById(
-        "ayudaTexto"
-    ).innerHTML = html;
+    if (temaActual === "suma") {
 
+        const a = datosPregunta.a;
+        const b = datosPregunta.b;
+
+        solucion.innerHTML = `
+            <strong>Paso 1:</strong>
+            Observamos los números.
+            <br><br>
+
+            <strong>Paso 2:</strong>
+            Realizamos la suma respetando los signos.
+            <br><br>
+
+            <strong>Resultado:</strong>
+            ${formatearNumero(a)} + ${formatearNumero(b)}
+            = <strong>${formatearNumero(datosPregunta.resultado)}</strong>
+        `;
+
+        return;
+    }
+
+
+    if (temaActual === "jerarquia") {
+
+        const a = datosPregunta.a;
+        const b = datosPregunta.b;
+        const c = datosPregunta.c;
+
+        const multiplicacion = b * c;
+
+        solucion.innerHTML = `
+            <strong>Paso 1:</strong>
+            Primero hacemos la multiplicación:
+            <br>
+            ${b} × ${c} = ${multiplicacion}
+            <br><br>
+
+            <strong>Paso 2:</strong>
+            Ahora hacemos la suma:
+            <br>
+            ${a} + ${multiplicacion}
+            = <strong>${datosPregunta.resultado}</strong>
+        `;
+    }
 }
 
 
-/* =====================================
-   TERMINAR TEMA
-===================================== */
+// ================================
+// TERMINAR
+// ================================
 
 function terminar() {
 
     const porcentaje =
-        Math.round(
-            (correctas /
-                TOTAL_EJERCICIOS) *
-            100
-        );
+        Math.round((correctas / TOTAL_EJERCICIOS) * 100);
 
 
-    /*
-       Actualizamos el progreso.
-
-       Si el alumno terminó el nivel
-       con al menos 70%, avanzamos.
-    */
-
+    // Avance del tema
     if (porcentaje >= 70) {
 
         let aumento = 20;
 
-
         if (nivelActual === "medio") {
-
             aumento = 25;
-
         }
 
-
         if (nivelActual === "dificil") {
-
             aumento = 30;
-
         }
 
 
         progreso[temaActual] =
-            Math.min(
-                100,
-                progreso[temaActual] +
-                aumento
-            );
+            Math.min(100, progreso[temaActual] + aumento);
 
-
-        guardarProgreso();
-
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(progreso)
+        );
     }
 
 
-    mostrarResultado(
-        porcentaje
-    );
+    document.getElementById("ejercicio").style.display = "none";
 
+    document.getElementById("resultado").style.display = "block";
+
+
+    document.getElementById("resultadoTema").textContent =
+        temas[temaActual].titulo;
+
+    document.getElementById("resultadoNivel").textContent =
+        nombreNivel(nivelActual);
+
+    document.getElementById("resultadoCorrectas").textContent =
+        correctas;
+
+    document.getElementById("resultadoEjercicios").textContent =
+        TOTAL_EJERCICIOS;
+
+    document.getElementById("resultadoRacha").textContent =
+        mejorRacha;
+
+    document.getElementById("resultadoPuntos").textContent =
+        porcentaje + "%";
 }
 
 
-/* =====================================
-   MOSTRAR RESULTADO
-===================================== */
+// ================================
+// VOLVER AL INICIO
+// ================================
 
-function mostrarResultado(
-    porcentaje
-) {
+function volverInicio() {
 
-    document.getElementById(
-        "ejercicio"
-    ).classList.add("oculto");
+    document.getElementById("inicio").style.display = "block";
+    document.getElementById("leccion").style.display = "none";
+    document.getElementById("ejercicio").style.display = "none";
+    document.getElementById("resultado").style.display = "none";
 
-
-    document.getElementById(
-        "resultado"
-    ).classList.remove("oculto");
+    actualizarProgreso();
+}
 
 
-    document.getElementById(
-            "resultadoTema"
-        ).textContent =
-        temas[temaActual].titulo;
+// ================================
+// PROGRESO
+// ================================
 
+function actualizarProgreso() {
 
-    document.getElementById(
-            "resultadoPuntos"
-        ).textContent =
-        Math.min(
-            100,
-            Math.round(
-                (puntos /
-                    (TOTAL_EJERCICIOS *
-                        (nivelActual === "dificil" ?
-                            15 :
-                            nivelActual === "medio" ?
-                            12 :
-                            10))) *
-                100
-            )
+    for (const tema in progreso) {
+
+        const barra = document.getElementById(
+            "progreso-" + tema
+        );
+
+        const texto = document.getElementById(
+            "porcentaje-" + tema
         );
 
 
-    document.getElementById(
-            "resultadoCorrectas"
-        ).textContent =
-        correctas;
+        if (barra) {
+            barra.style.width = progreso[tema] + "%";
+        }
 
-
-    document.getElementById(
-            "resultadoEjercicios"
-        ).textContent =
-        TOTAL_EJERCICIOS;
-
-
-    document.getElementById(
-            "resultadoRacha"
-        ).textContent =
-        `🔥 ${mejorRacha}`;
-
-
-    document.querySelector(
-            ".resultado-nivel"
-        ).textContent =
-        textoNivel(nivelActual)
-        .toUpperCase();
-
-
-    let mensaje = "";
-
-
-    if (porcentaje === 100) {
-
-        mensaje =
-            "🏆 ¡Perfecto! Dominaste este ejercicio.";
-
-    } else if (porcentaje >= 90) {
-
-        mensaje =
-            "🎉 ¡Excelente trabajo!";
-
-    } else if (porcentaje >= 70) {
-
-        mensaje =
-            "👏 ¡Muy bien! Sigue practicando.";
-
-    } else {
-
-        mensaje =
-            "💪 Buen intento. Practicar es parte del aprendizaje.";
-
+        if (texto) {
+            texto.textContent = progreso[tema] + "%";
+        }
     }
-
-
-    document.getElementById(
-            "mensajeFinal"
-        ).textContent =
-        mensaje;
-
-
-    actualizarProgresoPantalla();
-
 }
 
 
-/* =====================================
-   DESCARGAR LOGRO
-===================================== */
+// ================================
+// FUNCIONES AUXILIARES
+// ================================
+
+function numeroAleatorio(min, max) {
+
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+}
+
+
+function signoAleatorio() {
+
+    return Math.random() < 0.5 ? -1 : 1;
+}
+
+
+function formatearNumero(numero) {
+
+    if (numero > 0) {
+        return "+" + numero;
+    }
+
+    return numero.toString();
+}
+
+
+// ================================
+// DESCARGAR LOGRO
+// ================================
 
 function descargarLogro() {
 
-    /*
-       Creamos una imagen usando Canvas.
-
-       No necesitamos ninguna biblioteca
-       externa ni servidor.
-    */
-
-
-    const canvas =
-        document.createElement(
-            "canvas"
-        );
-
+    const canvas = document.createElement("canvas");
 
     canvas.width = 1200;
-
     canvas.height = 700;
 
+    const ctx = canvas.getContext("2d");
 
-    const ctx =
-        canvas.getContext("2d");
-
-
-    /* Fondo */
-
-    ctx.fillStyle = "#f4f6f8";
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    /* Tarjeta */
 
     ctx.fillStyle = "#ffffff";
-
-    ctx.fillRect(
-        60,
-        60,
-        1080,
-        580
-    );
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 
-    /* Borde */
-
-    ctx.strokeStyle = "#dddddd";
-
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#222222";
+    ctx.lineWidth = 8;
 
     ctx.strokeRect(
-        60,
-        60,
-        1080,
-        580
+        30,
+        30,
+        canvas.width - 60,
+        canvas.height - 60
     );
 
-
-    /* Título */
-
-    ctx.fillStyle = "#222222";
 
     ctx.textAlign = "center";
 
-    ctx.font =
-        "bold 48px Arial";
 
+    ctx.fillStyle = "#222222";
+
+    ctx.font = "bold 60px Arial";
 
     ctx.fillText(
-        "🎉 ¡TEMA COMPLETADO!",
+        "¡LOGRO CONSEGUIDO!",
         600,
-        145
+        150
     );
 
 
-    /* Tema */
-
-    ctx.font =
-        "bold 32px Arial";
-
+    ctx.font = "bold 42px Arial";
 
     ctx.fillText(
         temas[temaActual].titulo,
         600,
-        200
+        230
     );
 
 
-    /* Puntuación */
-
-    const puntuacion =
-        document.getElementById(
-            "resultadoPuntos"
-        ).textContent;
-
-
-    ctx.font =
-        "bold 100px Arial";
-
+    ctx.font = "32px Arial";
 
     ctx.fillText(
-        `${puntuacion} / 100`,
+        "Nivel: " + nombreNivel(nivelActual),
         600,
-        330
+        310
     );
 
 
-    /* Nivel */
-
-    ctx.font =
-        "bold 30px Arial";
-
-
     ctx.fillText(
-        textoNivel(nivelActual),
+        `Aciertos: ${correctas} / ${TOTAL_EJERCICIOS}`,
         600,
-        390
+        370
     );
 
 
-    /* Estadísticas */
-
-    ctx.font =
-        "24px Arial";
-
-
     ctx.fillText(
-        `✓ ${correctas} correctas   |   ${TOTAL_EJERCICIOS} ejercicios   |   🔥 ${mejorRacha} mejor racha`,
+        `Puntuación: ${Math.round((correctas / TOTAL_EJERCICIOS) * 100)}%`,
         600,
-        455
+        430
     );
 
 
-    /* Mensaje */
-
-    ctx.font =
-        "bold 27px Arial";
-
-
     ctx.fillText(
-        "¡Sigue aprendiendo y superando nuevos retos!",
+        `Mejor racha: ${mejorRacha}`,
         600,
-        530
+        490
     );
 
 
-    /* Marca */
-
-    ctx.font =
-        "bold 22px Arial";
-
-
-    ctx.fillStyle = "#666666";
-
+    ctx.font = "24px Arial";
 
     ctx.fillText(
-        "📘 MATE FÁCIL",
+        "Mate Fácil",
         600,
         590
     );
 
 
-    /* Descargar */
+    const enlace = document.createElement("a");
 
-    const enlace =
-        document.createElement("a");
+    enlace.download = "logro-mate-facil.png";
 
-
-    enlace.download =
-        "mi-logro-mate-facil.png";
-
-
-    enlace.href =
-        canvas.toDataURL(
-            "image/png"
-        );
-
+    enlace.href = canvas.toDataURL("image/png");
 
     enlace.click();
-
 }
 
 
-/* =====================================
-   VOLVER AL INICIO
-===================================== */
+// ================================
+// INICIO DE LA PÁGINA
+// ================================
 
-function volverInicio() {
-
-    document.getElementById(
-        "leccion"
-    ).classList.add("oculto");
-
-
-    document.getElementById(
-        "ejercicio"
-    ).classList.add("oculto");
-
-
-    document.getElementById(
-        "resultado"
-    ).classList.add("oculto");
-
-
-    document.getElementById(
-        "inicio"
-    ).classList.remove("oculto");
-
-
-    actualizarProgresoPantalla();
-
-}
-
-
-/* =====================================
-   INICIAR
-===================================== */
-
-actualizarProgresoPantalla();
+actualizarProgreso();
