@@ -5,94 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mate Fácil</title>
+    <title>Mate Fácil — V3.0</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>📘 Mate Fácil</h1>
-        <p>Aprende matemáticas paso a paso</p>
+    <header class="encabezado">
+
+        <div>
+            <h1>Mate Fácil</h1>
+            <p>Aprende matemáticas paso a paso</p>
+        </div>
+
+        <!-- VERSIÓN -->
+        <div class="version">
+            V3.0
+        </div>
+
     </header>
 
 
     <main>
 
-        <!-- =========================
-         INICIO
-    ========================== -->
+        <!-- ========================= -->
+        <!-- INICIO -->
+        <!-- ========================= -->
 
         <section id="inicio" class="pantalla">
 
             <h2>¿Qué quieres aprender?</h2>
 
-            <p class="subtitulo">
-                Aprende, practica y avanza a tu ritmo.
+            <p class="intro">
+                Primero aprende la explicación y después practica.
             </p>
+
 
             <div class="temas">
 
-                <button class="tema" onclick="abrirTema('signos')">
+                <button class="tema" onclick="iniciarTema('signos')">
 
-                <span class="tema-icono">➕➖</span>
+                <h3>Reglas de los signos</h3>
 
-                <strong>Reglas de los signos</strong>
+                <p>
+                    Aprende cuándo un resultado es positivo o negativo.
+                </p>
 
-                <small>
-                    Multiplicación y división
-                </small>
-
-                <div class="progreso-tema">
-                    <div id="barra-signos"></div>
+                <div class="barra-contenedor">
+                    <div id="progreso-signos" class="barra"></div>
                 </div>
 
-                <span id="texto-progreso-signos" class="texto-progreso">
-                    Sin comenzar
-                </span>
+                <span id="porcentaje-signos">0%</span>
 
             </button>
 
 
-                <button class="tema" onclick="abrirTema('suma')">
+                <button class="tema" onclick="iniciarTema('suma')">
 
-                <span class="tema-icono">🔢</span>
+                <h3>Suma y resta</h3>
 
-                <strong>Suma y resta</strong>
+                <p>
+                    Aprende a trabajar con números positivos y negativos.
+                </p>
 
-                <small>
-                    Números positivos y negativos
-                </small>
-
-                <div class="progreso-tema">
-                    <div id="barra-suma"></div>
+                <div class="barra-contenedor">
+                    <div id="progreso-suma" class="barra"></div>
                 </div>
 
-                <span id="texto-progreso-suma" class="texto-progreso">
-                    Sin comenzar
-                </span>
+                <span id="porcentaje-suma">0%</span>
 
             </button>
 
 
-                <button class="tema" onclick="abrirTema('jerarquia')">
+                <button class="tema" onclick="iniciarTema('jerarquia')">
 
-                <span class="tema-icono">🧮</span>
+                <h3>Jerarquía de operaciones</h3>
 
-                <strong>Jerarquía de operaciones</strong>
+                <p>
+                    Aprende qué operación debes resolver primero.
+                </p>
 
-                <small>
-                    Qué operación hacer primero
-                </small>
-
-                <div class="progreso-tema">
-                    <div id="barra-jerarquia"></div>
+                <div class="barra-contenedor">
+                    <div id="progreso-jerarquia" class="barra"></div>
                 </div>
 
-                <span id="texto-progreso-jerarquia" class="texto-progreso">
-                    Sin comenzar
-                </span>
+                <span id="porcentaje-jerarquia">0%</span>
 
             </button>
 
@@ -101,159 +99,157 @@
         </section>
 
 
-        <!-- =========================
-         LECCIÓN
-    ========================== -->
 
-        <section id="leccion" class="pantalla oculto">
+        <!-- ========================= -->
+        <!-- LECCIÓN -->
+        <!-- ========================= -->
 
-            <button class="volver" onclick="volverInicio()">
-            ← Volver
-        </button>
+        <section id="leccion" class="pantalla" style="display:none;">
 
-            <h2 id="tituloTema"></h2>
-
-            <div class="nivel-recomendado">
-
-                <span>Nivel recomendado:</span>
-
-                <strong id="nivelRecomendado">
-                🟢 Fácil
-            </strong>
-
-            </div>
-
+            <h2 id="tituloLeccion"></h2>
 
             <div class="explicacion">
 
                 <h3>📖 Aprende</h3>
 
-                <p id="textoExplicacion"></p>
+                <p id="explicacion"></p>
 
             </div>
 
 
             <div class="ejemplo">
 
-                <h3>💡 Ejemplo</h3>
+                <h3>Ejemplo</h3>
 
-                <div id="ejemploTexto"></div>
+                <p id="ejemplo"></p>
 
             </div>
+
+
+            <div class="recomendacion">
+
+                <p id="nivelRecomendado"></p>
+
+            </div>
+
+
+            <h3>Elige tu nivel</h3>
 
 
             <div class="niveles">
 
-                <h3>🎯 Nivel de práctica</h3>
+                <button id="nivel-facil" class="nivel" onclick="seleccionarNivel('facil')">
 
-                <p class="texto-nivel">
-                    Puedes cambiar el nivel cuando quieras.
-                </p>
+                Fácil
 
-
-                <div class="niveles-botones">
-
-                    <button id="nivelFacil" class="nivel" onclick="seleccionarNivel('facil')">
-
-                    <span>🟢</span>
-                    <strong>Fácil</strong>
-                    <small>Para comenzar</small>
-
-                </button>
+            </button>
 
 
-                    <button id="nivelMedio" class="nivel" onclick="seleccionarNivel('medio')">
+                <button id="nivel-medio" class="nivel" onclick="seleccionarNivel('medio')">
 
-                    <span>🟡</span>
-                    <strong>Medio</strong>
-                    <small>Un poco más difícil</small>
+                Medio
 
-                </button>
+            </button>
 
 
-                    <button id="nivelDificil" class="nivel" onclick="seleccionarNivel('dificil')">
+                <button id="nivel-dificil" class="nivel" onclick="seleccionarNivel('dificil')">
 
-                    <span>🔴</span>
-                    <strong>Difícil</strong>
-                    <small>Para dominarlo</small>
+                Difícil
 
-                </button>
-
-                </div>
+            </button>
 
             </div>
 
 
-            <button class="principal" onclick="comenzarEjercicio()">
-            ¡Comenzar!
+            <button class="boton-principal" onclick="comenzarEjercicios()">
+
+            Comenzar ejercicios
+
+        </button>
+
+
+            <button class="boton-secundario" onclick="volverInicio()">
+
+            ← Volver
+
         </button>
 
         </section>
 
 
-        <!-- =========================
-         EJERCICIO
-    ========================== -->
 
-        <section id="ejercicio" class="pantalla oculto">
+        <!-- ========================= -->
+        <!-- EJERCICIOS -->
+        <!-- ========================= -->
 
-            <div class="barra-superior">
+        <section id="ejercicio" class="pantalla" style="display:none;">
 
-                <span id="contador">
-                Ejercicio 1 de 10
+            <div class="cabecera-ejercicio">
+
+                <span id="numeroEjercicio">
+                1 / 10
             </span>
 
-                <span id="puntos">
-                ⭐ 0 puntos
+                <span>
+                Puntos:
+                <strong id="puntos">0</strong>
+            </span>
+
+                <span>
+                Nivel:
+                <strong id="nivelActual"></strong>
             </span>
 
             </div>
 
 
-            <div class="nivel-actual" id="nivelActual">
-                🟢 Fácil
-            </div>
+            <div class="pregunta">
 
+                <h2 id="pregunta"></h2>
 
-            <h2>Resuelve:</h2>
-
-
-            <div id="pregunta" class="pregunta">
-                5 × -1
             </div>
 
 
             <input type="number" id="respuesta" placeholder="Escribe tu respuesta" autocomplete="off">
 
 
-            <button id="botonComprobar" class="principal" onclick="comprobarRespuesta()">
+            <button id="btnComprobar" class="boton-principal" onclick="comprobarRespuesta()">
 
             Comprobar
 
         </button>
 
 
-            <div id="mensaje" class="mensaje">
-            </div>
+            <div id="mensaje" class="mensaje"></div>
 
 
-            <div id="opcionesAyuda" class="ayuda oculto">
+            <div class="ayudas">
 
-                <button onclick="mostrarPista()">
-                💡 Ver una pista
+                <button class="boton-secundario" onclick="mostrarAyuda()">
+
+                💡 Pista
+
             </button>
 
-                <button onclick="mostrarSolucion()">
+
+                <button class="boton-secundario" onclick="mostrarSolucion()">
+
                 📖 Ver solución paso a paso
+
             </button>
 
             </div>
 
 
-            <div id="ayudaTexto"></div>
+            <div id="ayuda" class="caja-ayuda" style="display:none;">
+            </div>
 
 
-            <button id="siguiente" class="principal oculto" onclick="nuevoEjercicio()">
+            <div id="solucion" class="caja-solucion" style="display:none;">
+            </div>
+
+
+            <button id="btnSiguiente" class="boton-principal" onclick="siguienteEjercicio()" style="display:none;">
 
             Siguiente ejercicio →
 
@@ -262,110 +258,74 @@
         </section>
 
 
-        <!-- =========================
-         RESULTADO
-    ========================== -->
 
-        <section id="resultado" class="pantalla resultado-pantalla oculto">
+        <!-- ========================= -->
+        <!-- RESULTADO -->
+        <!-- ========================= -->
+
+        <section id="resultado" class="pantalla resultado" style="display:none;">
 
             <div id="tarjetaLogro" class="tarjeta-logro">
 
-                <div class="confeti">
-                    🎉 🎉 🎉
+                <div class="trofeo">
+                    🏆
                 </div>
 
-                <h2>¡TEMA COMPLETADO!</h2>
+                <h2>¡Tema terminado!</h2>
 
-                <p id="resultadoTema">
-                    Reglas de los signos
-                </p>
-
-
-                <div class="gran-puntuacion">
-
-                    <span id="resultadoPuntos">
-                    90
-                </span>
-
-                    <small>
-                    / 100
-                </small>
-
-                </div>
-
-
-                <div class="resultado-nivel">
-                    🟢 NIVEL FÁCIL
-                </div>
+                <h3 id="resultadoTema"></h3>
 
 
                 <div class="estadisticas">
 
                     <div>
-                        <strong id="resultadoCorrectas">
-                        9
-                    </strong>
-
-                        <span>Correctas</span>
+                        <strong id="resultadoPuntos">0%</strong>
+                        <span>Puntuación</span>
                     </div>
 
+                    <div>
+                        <strong id="resultadoCorrectas">0</strong>
+                        <span>Aciertos</span>
+                    </div>
 
                     <div>
-                        <strong id="resultadoEjercicios">
-                        10
-                    </strong>
-
+                        <strong id="resultadoEjercicios">10</strong>
                         <span>Ejercicios</span>
                     </div>
 
-
                     <div>
-                        <strong id="resultadoRacha">
-                        🔥 5
-                    </strong>
-
-                        <span>Racha</span>
+                        <strong id="resultadoRacha">0</strong>
+                        <span>Mejor racha</span>
                     </div>
 
                 </div>
 
 
-                <div class="mensaje-final">
-
-                    <strong id="mensajeFinal">
-                    ¡Excelente trabajo!
-                </strong>
-
-                    <p>
-                        Sigue practicando para dominar las matemáticas.
-                    </p>
-
-                </div>
+                <p>
+                    Nivel:
+                    <strong id="resultadoNivel"></strong>
+                </p>
 
 
-                <div class="marca">
-                    📘 MATE FÁCIL
-                </div>
+                <p class="marca">
+                    Mate Fácil — V3.0
+                </p>
 
             </div>
 
 
-            <div class="botones-resultado">
+            <button class="boton-principal" onclick="descargarLogro()">
 
-                <button class="principal" onclick="descargarLogro()">
+            🖼️ Descargar logro
 
-                📸 Descargar mi logro
-
-            </button>
+        </button>
 
 
-                <button class="secundario" onclick="volverInicio()">
+            <button class="boton-secundario" onclick="volverInicio()">
 
-                ← Seguir aprendiendo
+            ← Volver al inicio
 
-            </button>
-
-            </div>
+        </button>
 
         </section>
 
@@ -375,7 +335,11 @@
     <footer>
 
         <p>
-            Mate Fácil · Aprende a tu ritmo
+            Mate Fácil — V3.0
+        </p>
+
+        <p>
+            Aprende • Practica • Mejora
         </p>
 
     </footer>
