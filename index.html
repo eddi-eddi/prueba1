@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mate Fácil — V3.3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">∑</div>
+
+            <div>
+                <h1>Mate Fácil</h1>
+                <span>V3.3 — Aprende de tus errores</span>
+            </div>
+        </div>
+
+        <div class="header-stats">
+            <div>
+                <strong id="headerScore">0</strong>
+                <small>Puntos</small>
+            </div>
+
+            <div>
+                <strong id="headerStreak">0 🔥</strong>
+                <small>Racha</small>
+            </div>
+        </div>
+    </header>
+
+
+    <nav class="menu">
+        <button class="menu-btn active" data-section="inicio">Inicio</button>
+        <button class="menu-btn" data-section="temas">Temas</button>
+        <button class="menu-btn" data-section="practica">Practicar</button>
+        <button class="menu-btn" data-section="desafios">Desafíos</button>
+        <button class="menu-btn" data-section="progreso">Progreso</button>
+        <button class="menu-btn" data-section="logros">Logros</button>
+    </nav>
+
+
+    <main>
+
+        <!-- =====================================================
+         INICIO
+    ====================================================== -->
+
+        <section id="inicio" class="section active">
+
+            <div class="hero">
+
+                <div>
+
+                    <span class="version-badge">
+                    MATE FÁCIL V3.3
+                </span>
+
+                    <h2>Aprende de tus errores</h2>
+
+                    <p>
+                        Practica matemáticas, recibe pistas, entiende tus errores y avanza poco a poco hacia ejercicios más difíciles.
+                    </p>
+
+                    <button id="heroPracticeBtn" class="hero-btn">
+                    Practicar ahora
+                </button>
+
+                </div>
+
+                <div class="hero-symbol">π</div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="card">
+
+                    <h3>🎯 Recomendación</h3>
+
+                    <div id="recommendation">
+                        Cargando recomendación...
+                    </div>
+
+                    <button id="recommendedBtn" class="primary-btn">
+                    Practicar tema recomendado
+                </button>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>📅 Progreso diario</h3>
+
+                    <div class="daily-progress">
+
+                        <div class="progress-track">
+                            <div id="dailyBar" class="progress-fill"></div>
+                        </div>
+
+                        <p>
+                            <strong id="dailyDone">0</strong> / 10 ejercicios
+                        </p>
+
+                        <p id="dailyMessage">
+                            Completa 10 ejercicios para alcanzar tu meta.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>⚠️ Temas para reforzar</h3>
+
+                    <div id="weakTopics">
+                        Cargando...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card why-card">
+
+                <h3>🧠 ¿Cómo funciona?</h3>
+
+                <p>
+                    Si te equivocas, no pierdes la oportunidad de aprender. Puedes pedir pistas, revisar la explicación y volver a intentarlo. La aplicación registra tus avances para recomendarte qué practicar después.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+         TEMAS
+    ====================================================== -->
+
+        <section id="temas" class="section">
+
+            <div class="section-title">
+
+                <h2>📚 Temas</h2>
+
+                <p>
+                    Elige un tema para comenzar a practicar.
+                </p>
+
+            </div>
+
+            <div id="topicsGrid" class="topics-grid"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+         PRÁCTICA
+    ====================================================== -->
+
+        <section id="practica" class="section">
+
+            <div class="practice-container">
+
+                <div class="practice-header">
+
+                    <div>
+
+                        <span id="practiceCategory">
+                        Selecciona un tema
+                    </span>
+
+                        <h2 id="questionTitle">
+                            Resuelve el ejercicio
+                        </h2>
+
+                    </div>
+
+                    <div id="difficultyLabel" class="difficulty">
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- Contenedor principal: ejercicio + pizarrón -->
+
+                <div class="practice-workspace">
+
+
+                    <!-- =========================
+                     EJERCICIO
+                ========================== -->
+
+                    <div class="question-card">
+
+                        <div id="questionText" class="question-text">
+                            Selecciona un tema para comenzar.
+                        </div>
+
+
+                        <div id="answerArea"></div>
+
+
+                        <div id="feedback" class="feedback hidden"></div>
+
+
+                        <div class="hint-area">
+
+                            <div class="hint-buttons">
+
+                                <button id="hintBtn" class="hint-btn">
+                                💡 Pista
+                            </button>
+
+                            </div>
+
+                            <div id="hintText"></div>
+
+                        </div>
+
+
+                        <div class="practice-actions">
+
+                            <button id="checkBtn" class="primary-btn">
+                            Comprobar respuesta
+                        </button>
+
+                            <button id="nextBtn" class="primary-btn" style="display: none;">
+                            Siguiente pregunta →
+                        </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                     MINI PIZARRÓN
+                ========================== -->
+
+                    <aside class="blackboard-card">
+
+                        <div class="blackboard-header">
+
+                            <div>
+
+                                <h3>📝 Mini pizarrón</h3>
+
+                                <small>
+                                Usa este espacio para hacer tu procedimiento
+                            </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Canvas -->
+
+                        <div class="blackboard-wrapper">
+
+                            <canvas id="blackboardCanvas"></canvas>
+
+                        </div>
+
+
+                        <!-- Herramientas -->
+
+                        <div class="blackboard-tools">
+
+                            <button id="pencilTool" class="board-tool active" type="button" title="Lápiz">
+                            ✏️
+                        </button>
+
+                            <button id="eraserTool" class="board-tool" type="button" title="Borrador">
+                            🧽
+                        </button>
+
+
+                            <span class="tool-separator"></span>
+
+
+                            <button id="blackColor" class="color-tool active" type="button" title="Negro" aria-label="Color negro">
+                            ⚫
+                        </button>
+
+                            <button id="redColor" class="color-tool" type="button" title="Rojo" aria-label="Color rojo">
+                            🔴
+                        </button>
+
+                            <button id="blueColor" class="color-tool" type="button" title="Azul" aria-label="Color azul">
+                            🔵
+                        </button>
+
+
+                            <span class="tool-separator"></span>
+
+
+                            <label class="board-size-label" for="brushSize">
+                            Tamaño
+                        </label>
+
+                            <input id="brushSize" type="range" min="1" max="12" value="3" step="1" title="Tamaño del trazo">
+
+
+                            <button id="clearBoardBtn" class="clear-board-btn" type="button" title="Limpiar todo el pizarrón">
+                            🗑️ Limpiar
+                        </button>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+         DESAFÍOS
+    ====================================================== -->
+
+        <section id="desafios" class="section">
+
+            <div class="section-title">
+
+                <h2>🧩 Desafíos</h2>
+
+                <p>
+                    Resuelve problemas divididos en varios pasos.
+                </p>
+
+            </div>
+
+            <div id="challengesGrid" class="challenges-grid"></div>
+
+        </section>
+
+
+        <!-- =====================================================
+         PROGRESO
+    ====================================================== -->
+
+        <section id="progreso" class="section">
+
+            <div class="section-title">
+
+                <h2>📊 Mi progreso</h2>
+
+                <p>
+                    Observa cómo estás avanzando.
+                </p>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <strong id="totalExercises">0</strong>
+                    <span>Ejercicios</span>
+                </div>
+
+                <div class="stat-card">
+                    <strong id="correctAnswers">0</strong>
+                    <span>Aciertos</span>
+                </div>
+
+                <div class="stat-card">
+                    <strong id="wrongAnswers">0</strong>
+                    <span>Errores</span>
+                </div>
+
+                <div class="stat-card">
+                    <strong id="accuracy">0%</strong>
+                    <span>Precisión</span>
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>📈 Dominio por tema</h3>
+
+                <div id="skillsProgress"></div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>🧠 Historial de errores</h3>
+
+                <div id="errorHistory"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+         LOGROS
+    ====================================================== -->
+
+        <section id="logros" class="section">
+
+            <div class="section-title">
+
+                <h2>🏆 Logros</h2>
+
+                <p>
+                    Sigue practicando para desbloquear nuevos logros.
+                </p>
+
+            </div>
+
+            <div id="achievementsGrid" class="achievements-grid"></div>
+
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+     MODAL: SELECCIÓN DE NIVEL
+     ====================================================== -->
+    <div id="levelModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <h3 id="modalTopicTitle">Elige el nivel</h3>
+            <p id="modalTopicDescription">Selecciona la dificultad</p>
+            <div class="level-options">
+                <button class="level-btn" data-level="facil">
+                    <span class="level-icon">🟢</span>
+                    <span class="level-name">Fácil</span>
+                    <span class="level-desc">Para practicar lo básico</span>
+                </button>
+                <button class="level-btn" data-level="medio">
+                    <span class="level-icon">🟡</span>
+                    <span class="level-name">Medio</span>
+                    <span class="level-desc">Para desafiar tu mente</span>
+                </button>
+                <button class="level-btn" data-level="dificil">
+                    <span class="level-icon">🔴</span>
+                    <span class="level-name">Difícil</span>
+                    <span class="level-desc">Para expertos</span>
+                </button>
+            </div>
+            <button id="cancelLevelBtn" class="secondary-btn">Cancelar</button>
+        </div>
+    </div>
+
+    <footer>
+
+        Mate Fácil — V3.3
+
+        <small>
+        Aprender también significa equivocarse.
+    </small>
+
+    </footer>
+
+
+    <script src="js/questions.js"></script>
+    <script src="js/whiteboard.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

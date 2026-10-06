@@ -1,0 +1,1132 @@
+/* =====================================================
+   MATE FÁCIL V3.3 — ESTILOS
+   ===================================================== */
+
+
+/* =====================================================
+   RESET Y VARIABLES
+   ===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --background: #f4f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #e4e7ec;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #d97706;
+}
+
+
+/* =====================================================
+   GENERAL
+   ===================================================== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.topbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 6%;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.brand h1 {
+    font-size: 22px;
+}
+
+.brand span {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.header-stats {
+    display: flex;
+    gap: 25px;
+}
+
+.header-stats div {
+    text-align: center;
+}
+
+.header-stats strong {
+    display: block;
+    font-size: 18px;
+}
+
+.header-stats small {
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   MENU
+   ===================================================== */
+
+.menu {
+    background: white;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+.menu-btn {
+    border: none;
+    background: transparent;
+    padding: 10px 15px;
+    border-radius: 9px;
+    cursor: pointer;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.menu-btn:hover {
+    background: #f1f5f9;
+}
+
+.menu-btn.active {
+    background: #e8f0ff;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   MAIN
+   ===================================================== */
+
+main {
+    width: min(1150px, 92%);
+    margin: auto;
+}
+
+
+/* =====================================================
+   SECCIONES
+   ===================================================== */
+
+.section {
+    display: none;
+    padding: 35px 0;
+}
+
+.section.active {
+    display: block;
+}
+
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.hero {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    border-radius: 25px;
+    padding: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.version-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero h2 {
+    font-size: clamp(30px, 5vw, 46px);
+    margin-bottom: 15px;
+}
+
+.hero p {
+    max-width: 600px;
+    line-height: 1.6;
+    opacity: 0.92;
+    margin-bottom: 25px;
+}
+
+.hero-symbol {
+    font-size: 170px;
+    opacity: 0.15;
+    font-family: Georgia, serif;
+}
+
+
+/* =====================================================
+   BOTONES
+   ===================================================== */
+
+.primary-btn,
+.secondary-btn,
+.hint-btn,
+.hero-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background: #eef2ff;
+    color: var(--primary);
+}
+
+.secondary-btn:hover {
+    background: #dbeafe;
+}
+
+.hero-btn {
+    background: white;
+    color: var(--primary);
+}
+
+.hero-btn:hover {
+    transform: translateY(-1px);
+}
+
+.hint-btn {
+    background: #fff7ed;
+    color: var(--warning);
+}
+
+.hint-btn:hover {
+    background: #ffedd5;
+}
+
+
+/* =====================================================
+   TARJETAS
+   ===================================================== */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.035);
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.card .primary-btn {
+    margin-top: 15px;
+}
+
+.why-card {
+    margin-top: 20px;
+}
+
+
+/* =====================================================
+   PROGRESO DIARIO
+   ===================================================== */
+
+.daily-progress {
+    margin-top: 18px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+
+/* =====================================================
+   TITULOS DE SECCION
+   ===================================================== */
+
+.section-title {
+    margin-bottom: 25px;
+}
+
+.section-title h2 {
+    margin-bottom: 8px;
+}
+
+.section-title p {
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   TEMAS
+   ===================================================== */
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.topic-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.topic-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+}
+
+.topic-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.topic-card h3 {
+    margin-bottom: 6px;
+}
+
+.topic-card p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.topic-level {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   PRACTICA
+   ===================================================== */
+
+.practice-container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.practice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.practice-header span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.difficulty {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+
+/* =====================================================
+   ESPACIO DE PRACTICA
+   Ejercicio + Pizarron
+   ===================================================== */
+
+.practice-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.9fr);
+    gap: 20px;
+    align-items: start;
+}
+
+
+/* =====================================================
+   TARJETA DE PREGUNTA
+   ===================================================== */
+
+.question-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.question-text {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.answer-input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 20px;
+    outline: none;
+}
+
+.answer-input:focus {
+    border-color: var(--primary);
+}
+
+
+/* =====================================================
+   PISTAS
+   ===================================================== */
+
+.hint-area {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+.hint-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+#hintText {
+    margin-top: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   ACCIONES DE PRACTICA
+   ===================================================== */
+
+.practice-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.practice-actions button {
+    min-height: 44px;
+}
+
+
+/* =====================================================
+   BOTON SIGUIENTE
+   ===================================================== */
+
+#nextBtn {
+    background: var(--success);
+    color: white;
+}
+
+#nextBtn:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   PIZARRON
+   ===================================================== */
+
+.blackboard-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.blackboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.blackboard-header h3 {
+    font-size: 18px;
+}
+
+.blackboard-header span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   AREA DEL CANVAS
+   ===================================================== */
+
+.blackboard-wrapper {
+    width: 100%;
+    height: 360px;
+    background: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    touch-action: none;
+}
+
+#blackboardCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+
+/* =====================================================
+   HERRAMIENTAS DEL PIZARRON
+   ===================================================== */
+
+.blackboard-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.blackboard-tool {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    transition: 0.15s;
+}
+
+.blackboard-tool:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+.blackboard-tool.active {
+    border-color: var(--primary);
+    background: #e8f0ff;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+
+/* =====================================================
+   COLORES DEL PIZARRON
+   ===================================================== */
+
+.color-tool {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid white;
+    outline: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0;
+}
+
+.color-tool:hover {
+    transform: scale(1.08);
+}
+
+.color-tool.active {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+#blackColor {
+    background: #111827;
+}
+
+#redColor {
+    background: #dc2626;
+}
+
+#blueColor {
+    background: #2563eb;
+}
+
+
+/* =====================================================
+   TAMAÑO DEL PINCEL
+   ===================================================== */
+
+.board-size-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+#brushSize {
+    width: 80px;
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   BORRAR PIZARRON
+   ===================================================== */
+
+#clearBoardBtn {
+    margin-left: auto;
+}
+
+#clearBoardBtn:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+
+/* =====================================================
+   FEEDBACK
+   ===================================================== */
+
+.feedback {
+    margin: 20px 0;
+    padding: 18px;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+.feedback.correct {
+    background: #ecfdf3;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.feedback.incorrect {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.feedback-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.solution {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* =====================================================
+   SESIÓN DE EJERCICIOS
+   ===================================================== */
+
+.session-complete {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.session-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.session-actions button {
+    flex: 1;
+    min-width: 140px;
+}
+
+
+/* =====================================================
+   DESAFIOS
+   ===================================================== */
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.challenge-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+}
+
+.challenge-card h3 {
+    margin-bottom: 10px;
+}
+
+.challenge-card p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.challenge-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.challenge-tag {
+    background: #eef2ff;
+    color: #4338ca;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+
+/* =====================================================
+   ESTADISTICAS
+   ===================================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stat-card strong {
+    display: block;
+    font-size: 30px;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.stat-card span {
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   HABILIDADES
+   ===================================================== */
+
+.skill-row {
+    margin-bottom: 18px;
+}
+
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.skill-header span:last-child {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.skill-bar {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.skill-fill {
+    height: 100%;
+    background: var(--primary);
+}
+
+
+/* =====================================================
+   HISTORIAL DE ERRORES
+   ===================================================== */
+
+.error-item {
+    border-left: 4px solid var(--danger);
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    background: #fff7f7;
+    border-radius: 8px;
+}
+
+.error-item strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.error-item span {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.error-type {
+    display: inline-block;
+    margin-top: 7px;
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   LOGROS
+   ===================================================== */
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.achievement {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+    opacity: 0.45;
+}
+
+.achievement.unlocked {
+    opacity: 1;
+    border-color: #fbbf24;
+    box-shadow: 0 5px 20px rgba(251, 191, 36, 0.12);
+}
+
+.achievement-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+.achievement p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 7px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   MODAL: SELECCIÓN DE NIVEL
+   ===================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal h3 {
+    margin-bottom: 8px;
+}
+
+.modal p {
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.level-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.level-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: left;
+}
+
+.level-btn:hover {
+    border-color: var(--primary);
+    background: #f8fafc;
+    transform: translateY(-2px);
+}
+
+.level-icon {
+    font-size: 28px;
+}
+
+.level-name {
+    font-weight: bold;
+    font-size: 16px;
+    display: block;
+}
+
+.level-desc {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =====================================================
+   ELEMENTOS OCULTOS
+   ===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    margin-top: 30px;
+}
+
+footer small {
+    display: block;
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   RESPONSIVE — TABLET
+   ===================================================== */
+
+@media (max-width: 900px) {
+    .dashboard-grid,
+    .topics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .challenges-grid {
+        grid-template-columns: 1fr;
+    }
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .practice-workspace {
+        grid-template-columns: 1fr;
+    }
+    .blackboard-card {
+        width: 100%;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE — TELEFONO
+   ===================================================== */
+
+@media (max-width: 650px) {
+    .topbar {
+        padding: 13px 4%;
+    }
+    .header-stats {
+        gap: 10px;
+    }
+    .hero {
+        padding: 30px 22px;
+    }
+    .hero-symbol {
+        display: none;
+    }
+    .dashboard-grid,
+    .topics-grid,
+    .stats-grid,
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    .question-card {
+        padding: 22px;
+    }
+    .question-text {
+        font-size: 20px;
+    }
+    .practice-actions {
+        flex-direction: column;
+    }
+    .practice-actions button {
+        width: 100%;
+    }
+    .practice-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .blackboard-card {
+        padding: 16px;
+    }
+    .blackboard-wrapper {
+        height: 300px;
+    }
+    .blackboard-tools {
+        gap: 8px;
+    }
+    .brush-size-container {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 4px;
+    }
+    #brushSize {
+        flex: 1;
+    }
+    #clearBoardBtn {
+        margin-left: 0;
+    }
+}
+
+
+/* =====================================================
+   TELEFONOS MUY PEQUEÑOS
+   ===================================================== */
+
+@media (max-width: 400px) {
+    .topbar {
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .brand h1 {
+        font-size: 18px;
+    }
+    .brand span {
+        font-size: 11px;
+    }
+    .logo {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+    }
+    .header-stats {
+        font-size: 12px;
+    }
+    .header-stats strong {
+        font-size: 16px;
+    }
+    .blackboard-wrapper {
+        height: 270px;
+    }
+}
