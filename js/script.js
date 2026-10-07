@@ -1530,6 +1530,13 @@ function getRandomQuestion(topicId) {
         try {
             const question = window.MateFacilQuestions.generateQuestion(topicId, selectedDifficulty);
             question.id = `dyn-${topicId}-${selectedDifficulty}-${Date.now()}-${Math.random()}`;
+            // Normalizar el formato del generador (question → text, agregar hint)
+            if (question.text === undefined && question.question !== undefined) {
+                question.text = question.question;
+            }
+            if (question.hint === undefined) {
+                question.hint = "";
+            }
             return question;
         } catch (e) {
             console.warn("Error generando pregunta dinámica:", e);
@@ -1594,7 +1601,7 @@ function renderQuestion() {
         return;
     }
 
-    currentDifficulty = findQuestionDifficulty(
+    currentDifficulty = currentQuestion.difficulty || findQuestionDifficulty(
         currentTopic,
         currentQuestion.id
     );
@@ -1959,8 +1966,11 @@ function showHint() {
         return;
     }
 
-    hintText.textContent =
-        "💡 Pista: " + currentQuestion.hint;
+    if (currentQuestion.hint) {
+        hintText.textContent = "💡 Pista: " + currentQuestion.hint;
+    } else {
+        hintText.textContent = "Sin pista disponible para este ejercicio.";
+    }
 
     hintText.style.display = "block";
 }
